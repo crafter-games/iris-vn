@@ -1,4 +1,5 @@
 import { InkList, Story } from "inkjs";
+import { city, device } from "./visitor";
 
 export type Step =
   | { kind: "line"; id: string; speaker: string | null; text: string; tags: string[] }
@@ -19,6 +20,8 @@ export class Script {
     this.story.BindExternalFunction("hora_actual", () =>
       new Intl.DateTimeFormat("es-PE", { hour: "numeric", minute: "2-digit" }).format(new Date()),
     );
+    this.story.BindExternalFunction("ciudad", city);
+    this.story.BindExternalFunction("dispositivo", device);
     this.checkpoint = this.story.state.ToJson();
   }
 

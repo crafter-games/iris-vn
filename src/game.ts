@@ -24,7 +24,10 @@ import { SettingsPanel } from "./ui/settingsPanel";
 import { hydrateIcons } from "./ui/icons";
 import { TitleScreen } from "./ui/titleScreen";
 import { TextBox } from "./ui/textbox";
+import { Scan } from "./ui/scan";
 import { Toast } from "./ui/toast";
+import * as visitor from "./engine/visitor";
+import { CLUE_ORDER } from "./data/clues";
 
 const $ = <T extends HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
 
@@ -51,6 +54,7 @@ export class Game {
   private menu = new Panel($("#overlays"), "panel--menu", "Menú");
   private credits = new Panel($("#overlays"), "panel--credits", "Créditos");
   private title = new TitleScreen($("#start"));
+  private scan = new Scan($("#scan"));
   private corruption = new Corruption($("#stage"));
   private miku = new Miku($<HTMLButtonElement>("#miku"));
   private tabTitle = "";
@@ -219,6 +223,9 @@ export class Game {
         case "miku":
           this.miku.place(value);
           break;
+        case "scan":
+          await this.runScan(fast);
+          break;
         case "flicker":
           if (!fast) this.iris.flicker(value, value === "hollow" ? 110 : 150);
           break;
@@ -296,6 +303,29 @@ export class Game {
     return options;
   }
 
+  // Susto: "Eco analiza tu perfil" con lo que el navegador ya sabe (nada sale del navegador).
+  private async runScan(fast: boolean) {
+    const name = String(this.script.getVar("nombre"));
+    const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+    await this.scan.run(
+      `ECO v3.3 · análisis de perfil · ${name}`,
+      [
+        { label: "Usuario", value: name },
+        { label: "Ubicación aproximada", value: visitor.city() },
+        { label: "Dispositivo", value: cap(visitor.device().replace(/^(un|una) /, "")) },
+        { label: "Hora local", value: visitor.localTime() },
+        { label: "Idioma", value: visitor.language() },
+        { label: "Modo oscuro", value: visitor.darkMode() ? "activado" : "desactivado" },
+        { label: "Pantalla", value: visitor.screenSize() },
+        { label: "Cosas que notaste", value: `${this.notebook.found.length} de ${CLUE_ORDER.length}` },
+        { label: "Tiempo en la app", value: `${visitor.minutesPlaying()} min` },
+        { label: "Compatibilidad con IRIS", value: "97,3 %", alert: true },
+        { label: "Estado del vínculo", value: "en progreso", alert: true },
+      ],
+      { fast },
+    );
+  }
+
   // Título a mitad de escena: aparece tras el "dodon" y espera un avance.
   private async showTitlecard() {
     this.textbox.hide();
@@ -321,6 +351,7 @@ export class Game {
       return resolve();
     }
     if (Panel.anyOpen || this.choices.active || this.phone.asking) return;
+    if (this.scan.open) return this.scan.advance();
     if (this.phone.open) this.phone.advance();
     else this.textbox.advance();
   }
@@ -440,6 +471,7 @@ export class Game {
     this.resolveTitlecard = null;
     this.titlecard.hidden = true;
     this.textbox.reset();
+    this.scan.reset();
     this.choices.cancel();
     this.phone.reset();
     this.iris.hide();

@@ -26,6 +26,13 @@ export const CREDITS: CreditSection[] = [
     ],
   },
   {
+    title: "Privacidad",
+    lines: [
+      "Todo lo que el juego “sabe” de ti (ciudad según tu zona horaria, dispositivo, hora, idioma) lo lee tu navegador en el momento. No se envía a ningún servidor ni se guarda.",
+      "Tus partidas y ajustes viven solo en el almacenamiento local de este navegador.",
+    ],
+  },
+  {
     title: "Tipografías y código",
     lines: ["Noto Serif y JetBrains Mono (SIL Open Font License).", "Ink e inkjs (MIT) · Vite · TypeScript."],
   },

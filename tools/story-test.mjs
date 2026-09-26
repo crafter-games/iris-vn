@@ -26,12 +26,14 @@ const json = compiled.ToJson();
 const { Story } = await import("inkjs/full");
 
 const SPEAKER = /^([^:\n]{1,24}):\s+(.+)$/s;
-const KNOWN_TAGS = new Set(["flicker", "chat", "sys", "glitch", "tabtitle", "corrupt_slot", "miku", "bg", "iris", "sfx", "shake", "flash", "glass", "phone", "delete", "input", "pause", "titlecard", "instant", "ending", "bgm", "corruption"]);
+const KNOWN_TAGS = new Set(["scan", "flicker", "chat", "sys", "glitch", "tabtitle", "corrupt_slot", "miku", "bg", "iris", "sfx", "shake", "flash", "glass", "phone", "delete", "input", "pause", "titlecard", "instant", "ending", "bgm", "corruption"]);
 
 // Juega una partida. `pick(options, story)` devuelve el índice elegido.
 function play(pick) {
   const story = new Story(json);
   story.BindExternalFunction("hora_actual", () => "11:11 p. m.");
+  story.BindExternalFunction("ciudad", () => "Lima");
+  story.BindExternalFunction("dispositivo", () => "una PC con Windows");
   let ending = null;
   let words = 0;
   const problems = [];

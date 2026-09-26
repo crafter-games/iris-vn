@@ -1460,6 +1460,89 @@ body {
   color: rgb(244 233 220 / 0.85);
 }
 
+/* ——— "Eco analiza tu perfil" ——— */
+.scan {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  background: rgb(3 5 8 / 0.92);
+}
+
+.scan[hidden] {
+  display: none;
+}
+
+.scan__card {
+  width: min(70cqw, 980px);
+  padding: 4cqh 3cqw;
+  font-family: var(--mono);
+  color: var(--cyan);
+  border: 1px solid rgb(92 225 230 / 0.3);
+  box-shadow: 0 0 6cqh rgb(92 225 230 / 0.08) inset;
+}
+
+.scan__title {
+  margin: 0 0 1.6cqh;
+  font-size: max(2.2cqh, 11px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.scan__bar {
+  height: 0.6cqh;
+  margin-bottom: 2.4cqh;
+  background: rgb(92 225 230 / 0.15);
+}
+
+.scan__bar i {
+  display: block;
+  height: 100%;
+  background: var(--cyan);
+  transition: width 300ms ease;
+}
+
+.scan__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1cqh;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scan__row {
+  display: flex;
+  align-items: baseline;
+  gap: 1cqw;
+  font-size: max(2.3cqh, 11px);
+  color: rgb(244 233 220 / 0.75);
+  animation: scan-in 200ms ease-out;
+}
+
+.scan__row strong {
+  font-weight: 600;
+  color: var(--cream);
+}
+
+.scan__dots {
+  flex: 1;
+  border-bottom: 1px dotted rgb(92 225 230 / 0.35);
+}
+
+.scan__row--alert,
+.scan__row--alert strong {
+  color: #ff5a6e;
+}
+
+@keyframes scan-in {
+  from {
+    opacity: 0;
+    transform: translateX(-1cqw);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .grain,
   .textbox__cursor,

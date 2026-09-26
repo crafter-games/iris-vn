@@ -8,11 +8,14 @@
 // En las opciones, [texto #pista] muestra el icono del cuaderno.
 // Atmósfera: # bgm:<mood|none> # corruption:0-3 # glitch
 // Cuarta pared: # tabtitle:<texto con $nombre> # corrupt_slot
+// Susto: # scan ("Eco analiza tu perfil" con datos del navegador; nada sale del navegador)
 // Easter egg: # miku:<id>@<x>,<y>  (peluche escondido, posición en % del escenario)
 // Verdad roja: [[r]]texto[[/r]]
 // Los cameos de Crafter Station son siempre amables y periféricos (ver GDD).
 
 EXTERNAL hora_actual()
+EXTERNAL ciudad()
+EXTERNAL dispositivo()
 
 VAR nombre = "Tú"
 VAR afinidad = 50
@@ -36,3 +39,9 @@ INCLUDE 06_finales.ink
 // Respaldo si el motor no enlaza la función (p. ej. al probar el guion en Inky).
 === function hora_actual() ===
 ~ return "3:33"
+
+=== function ciudad() ===
+~ return "Lima"
+
+=== function dispositivo() ===
+~ return "tu laptop"

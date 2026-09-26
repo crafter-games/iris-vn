@@ -51,11 +51,13 @@ node tools/route-shots.mjs   # juega la ruta "Verdad" y captura los momentos cla
   | `# bgm:<mood>` | Música: `public/music/<mood>.mp3` (title, warm, uneasy, office_night, horror, confession) o `none`. Generativa si falta el archivo. |
   | `# corruption:<0-3>` | Nivel de corrupción: filtro de fondos, grano, viñeta, aberración, glitches, capas de audio, color de la UI. |
   | `# glitch` | Glitch de pantalla puntual. |
+  | `# scan` | Pantalla falsa "Eco analiza tu perfil" con datos del navegador (`src/engine/visitor.ts`); nada sale del navegador. |
   | `# flicker[:creepy|hollow|glitch]` | Iris se distorsiona una fracción de segundo y vuelve (al azar si no se indica). |
   | `# tabtitle:<texto>` | Cambia el título de la pestaña (`$nombre` = nombre del jugador; vacío = normal). |
   | `# corrupt_slot` | La ranura 6, si está vacía, aparece "corrupta" con el nombre del jugador. |
   | `# miku:<id>@<x>,<y>` | Peluche escondido clicable (logro "where is miku?"). |
   | `[[r]]…[[/r]]` | Verdad roja (destello + sonido). |
 
+- Funciones Ink: `hora_actual()`, `ciudad()` (según la zona horaria) y `dispositivo()`.
 - Pistas: `LIST pistas` en Ink (`~ pistas += foto_noche`); los textos del cuaderno están en `src/data/clues.ts`.
 - Deploy: cada push a `main` se despliega solo en el VPS de Crafter (Dokploy, `Dockerfile`).

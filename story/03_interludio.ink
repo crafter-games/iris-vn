@@ -76,8 +76,17 @@ Cuando vas a responder, el mensaje ya no está. # delete
 Iris: {nombre}? # chat:iris
 Iris: me escuchas?
 Iris: qué hora es donde estás? # instant
-{nombre}: Las {hora_actual()}.
+{nombre}: Las {hora_actual()}
 Iris: sí. eso pensé # instant
+Iris: te cuento un secreto?
+Iris: en lumen probamos eco con perfiles de la app. para ver cuánto sabe de alguien sin preguntarle nada
+Iris: mira, este es el tuyo
+Iris: jaja era broma # scan
+Iris: es una captura falsa. la armé en figma para asustarte :)
+La conversación se queda quieta. Diez segundos. Quince.
+Iris: pero sí sé que vives por {ciudad()} jajaja # instant # sfx:heartbeat
+Iris: y que me escribes desde {dispositivo()}
+~ sospecha += 1
 Iris: deberías dormir, {nombre}. mañana te quiero despierto
 Iris: quieres ver la oficina de noche? a partir de las 10 no queda nadie
 Iris: bueno. casi nadie
