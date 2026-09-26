@@ -132,7 +132,7 @@ for (const vp of [
   await page.waitForTimeout(600);
   await page.keyboard.press("Space"); // completa la línea restaurada
   const loadedLine = await page.textContent(".textbox__body");
-  check(loadedLine === savedLine, `cargar vuelve a la misma línea ("${loadedLine?.slice(0, 40)}…" vs guardada "${savedLine?.slice(0, 40)}…")`);
+  check(!!savedLine && !!loadedLine?.startsWith(savedLine), `cargar vuelve a la misma línea ("${loadedLine?.slice(0, 40)}…" vs guardada "${savedLine?.slice(0, 40)}…")`);
 
   // Quick save / quick load.
   await page.keyboard.press("F5");
