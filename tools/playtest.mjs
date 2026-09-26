@@ -117,7 +117,7 @@ for (const vp of [
   await page.waitForTimeout(200);
   await page.screenshot({ path: "playtest/systems-save.png" });
   await page.keyboard.press("Escape");
-  const savedLine = await page.textContent(".textbox__body");
+  const savedLine = await page.evaluate(() => JSON.parse(localStorage.getItem("iris.save.1") ?? "{}").excerpt);
 
   for (let i = 0; i < 4; i++) await step(page, vp);
 
@@ -132,7 +132,7 @@ for (const vp of [
   await page.waitForTimeout(600);
   await page.keyboard.press("Space"); // completa la línea restaurada
   const loadedLine = await page.textContent(".textbox__body");
-  check(loadedLine === savedLine, `cargar vuelve a la misma línea ("${loadedLine?.slice(0, 40)}…")`);
+  check(loadedLine === savedLine, `cargar vuelve a la misma línea ("${loadedLine?.slice(0, 40)}…" vs guardada "${savedLine?.slice(0, 40)}…")`);
 
   // Quick save / quick load.
   await page.keyboard.press("F5");
