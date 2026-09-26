@@ -243,6 +243,34 @@ body {
   }
 }
 
+/* En el celular: respuestas rápidas sobre la parte baja del chat. */
+.choices--phone {
+  inset: auto 0 6cqh;
+  align-items: center;
+  gap: 1.2cqh;
+  background: none;
+}
+
+.choices--phone .choice {
+  width: 44cqh;
+  padding: 1.4cqh 2cqh;
+  font-family: system-ui, sans-serif;
+  font-size: max(2.3cqh, 12px);
+  text-align: right;
+  color: var(--pink);
+  background: #1c2130;
+  border: 1px solid rgb(232 160 180 / 0.55);
+  border-radius: 2cqh;
+  box-shadow: 0 1cqh 3cqh rgb(0 0 0 / 0.5);
+}
+
+.choices--phone .choice:hover,
+.choices--phone .choice:focus {
+  color: var(--night);
+  background: var(--pink);
+  transform: none;
+}
+
 /* ——— Celular ——— */
 .phone {
   position: absolute;

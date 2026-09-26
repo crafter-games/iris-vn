@@ -127,7 +127,7 @@ export class Game {
         this.skipToggle = false;
         this.updateModes();
         this.save("auto", true);
-        const index = await this.choices.pick(step.options);
+        const index = await this.choices.pick(step.options, { phone: this.phone.open });
         if (id !== this.runId) return;
         this.backlog.add({ speaker: "›", text: step.options.find((o) => o.index === index)?.text ?? "" });
         this.script.choose(index);

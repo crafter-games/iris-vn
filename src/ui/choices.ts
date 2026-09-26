@@ -16,9 +16,11 @@ export class Choices {
     return this.buttons.length > 0;
   }
 
-  pick(options: { index: number; text: string }[]): Promise<number> {
+  // `phone`: las opciones se muestran como respuestas rápidas dentro del celular.
+  pick(options: { index: number; text: string }[], { phone = false } = {}): Promise<number> {
     return new Promise((resolve) => {
       this.root.replaceChildren();
+      this.root.classList.toggle("choices--phone", phone);
       this.buttons = options.map((option, i) => {
         const button = document.createElement("button");
         button.className = "choice";
