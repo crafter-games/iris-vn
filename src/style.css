@@ -278,7 +278,6 @@ body {
 }
 
 .choices--phone .choice {
-  width: 44cqh;
   padding: 1.4cqh 2cqh;
   font-family: system-ui, sans-serif;
   font-size: max(2.3cqh, 12px);
@@ -1157,6 +1156,152 @@ body {
   50% {
     transform: rotate(90deg);
   }
+}
+
+/* ——— Iconos (Phosphor light) ——— */
+.icon {
+  display: inline-flex;
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.2em;
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.quickbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+}
+
+.corner__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textbox__cursor .icon {
+  width: 2.4cqh;
+  height: 2.4cqh;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.toast .icon {
+  color: var(--pink);
+}
+
+.choice--clue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.choice--clue .icon {
+  color: var(--pink);
+}
+
+.panel__close {
+  display: inline-flex;
+}
+
+.phone__send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bubble--deleted {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.phone__avatar--icon .icon {
+  width: 3cqh;
+  height: 3cqh;
+}
+
+.rotate__icon .icon {
+  width: 56px;
+  height: 56px;
+}
+
+/* ——— Celular a la derecha, pensamientos a la izquierda ——— */
+#stage {
+  --phone-w: calc(92cqh * 9 / 17);
+  --phone-right: 12cqw;
+}
+
+.phone {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--phone-right);
+}
+
+.phone__device {
+  width: var(--phone-w);
+}
+
+.phone__thought {
+  position: absolute;
+  top: 50%;
+  left: 7cqw;
+  right: calc(var(--phone-right) + var(--phone-w) + 5cqw);
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: max(3.4cqh, 14px);
+  line-height: 1.55;
+  color: var(--cream);
+  text-shadow: 0 0.3cqh 1.5cqh rgb(0 0 0 / 0.8);
+  text-wrap: pretty;
+  transform: translateY(-50%);
+  transition: opacity 300ms ease;
+}
+
+.phone__thought--dim {
+  opacity: 0.3;
+}
+
+.choices--phone {
+  inset: auto var(--phone-right) 6cqh auto;
+  width: var(--phone-w);
+}
+
+.choices--phone .choice {
+  width: calc(var(--phone-w) - 4cqh);
+}
+
+/* Créditos */
+.credits__section {
+  margin-bottom: 2.4cqh;
+}
+
+.credits__section h3 {
+  margin: 0 0 0.8cqh;
+  font-family: var(--mono);
+  font-size: max(1.9cqh, 11px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.credits__section p {
+  margin: 0 0 0.6cqh;
+  font-size: max(2.1cqh, 12px);
+  line-height: 1.5;
+  color: rgb(244 233 220 / 0.85);
 }
 
 @media (prefers-reduced-motion: reduce) {

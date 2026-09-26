@@ -78,13 +78,13 @@ Al jueves siguiente vuelves al Code Brew. Buscas su hoodie gris entre la gente. 
 Anthony: ¿Iris? Mmm… no me suena. ¿Lumen Labs presentó algo?
 {nombre}: Eco. El asistente de chats. El jueves pasado.
 Anthony: El jueves pasado no presentó nadie de Lumen, causa. Pero la demo de Eco sí la vi en X. Está buenaza.
-# bg:black # phone:open # corruption:3
+# bg:black # phone:open # chat:borrado # corruption:3
 Abres la app. El match no existe. Abres el chat. Solo están tus mensajes, uno debajo del otro, contestándole a nadie.
 {nombre}: Sí, voy. ¿Tú también?
 {nombre}: No pasa nada. Salí bien, de hecho.
 {nombre}: Sí. No podía dormir.
 Llega un mensaje nuevo. # sfx:notif
-Número desconocido: gracias por tus datos, {nombre} # sfx:dodon # shake:14 # glitch # tabtitle:gracias por tus datos, $nombre
+Número desconocido: gracias por tus datos, {nombre} # chat:desconocido # sfx:dodon # shake:14 # glitch # tabtitle:gracias por tus datos, $nombre
 Número desconocido: nos vemos en la fase 4
 # ending:desconexion
 FINAL — Desconexión. # sfx:stinger
@@ -95,5 +95,6 @@ FINAL — Desconexión. # sfx:stinger
 Iris.exe — demo.
 Gracias por jugar, {nombre}. En serio.
 Una historia de citas, modelos y personas que se parecen demasiado. Hecha con cariño para la comunidad de Crafter Station.
+Música: Kevin MacLeod (incompetech.com), bajo licencia Creative Commons BY 4.0. Iris: sprite de sutemo. Créditos completos en el menú.
 Hay tres finales. ¿Los encontraste todos?
 -> END

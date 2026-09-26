@@ -2,8 +2,8 @@
 
 === match ===
 # bg:black # corruption:0
-# sfx:notif # phone:open
-Tienes un nuevo match.
+# sfx:notif # phone:open # chat:iris
+Tienes un nuevo match. # sys
 Completa tu perfil para responder. # input:nombre
 Iris: hola, {nombre} :)
 Iris: perdón si es raro escribir primero. vi que también vas al Code Brew de mañana

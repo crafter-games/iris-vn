@@ -1,3 +1,5 @@
+import { icon } from "./icons";
+
 // Menú de elecciones: clic/tap, o flechas + Enter.
 // El teclado no confirma durante los primeros ms: evita elegir sin querer al pasar texto rápido.
 const KEY_GUARD_MS = 400; // (tune)
@@ -17,7 +19,7 @@ export class Choices {
   }
 
   // `phone`: las opciones se muestran como respuestas rápidas dentro del celular.
-  pick(options: { index: number; text: string }[], { phone = false } = {}): Promise<number> {
+  pick(options: { index: number; text: string; tags?: string[] }[], { phone = false } = {}): Promise<number> {
     return new Promise((resolve) => {
       this.root.replaceChildren();
       this.root.classList.toggle("choices--phone", phone);
@@ -27,6 +29,11 @@ export class Choices {
         const button = document.createElement("button");
         button.className = "choice";
         button.textContent = option.text;
+        // Presentar una pista: icono de cuaderno delante.
+        if (option.tags?.includes("pista")) {
+          button.classList.add("choice--clue");
+          button.prepend(icon("notebook"));
+        }
         button.style.animationDelay = `${i * 60}ms`;
         button.addEventListener("pointerenter", () => this.focus(i));
         button.addEventListener("click", (event) => {

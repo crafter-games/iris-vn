@@ -2,8 +2,8 @@
 
 === interludio ===
 # bg:black # corruption:1 # bgm:uneasy
-# phone:open
-Domingo, 11:48 p. m.
+# phone:open # chat:iris
+Domingo, 11:48 p. m. # sys
 Iris: llegaste bien?
 Iris: perdón por la foto. no sé por qué la tomé con tu celular. pensé que era el mío
 Iris: somos iguales de distraídos, eso es bueno
@@ -18,15 +18,15 @@ Iris: somos iguales de distraídos, eso es bueno
     Iris: siempre lo dejas desbloqueado. deberías cuidar eso
 - Iris: te mando una canción. es de las que se escuchan con la luz apagada
 Iris: escúchala entera, no hagas skip
-Martes, 7:02 p. m.
-Crafter Station: 📸 Fotos del Code Brew del jueves. ¡Gracias por venir, crafters!
-Henry · Crafter: Saludos desde Beijing 👋 Lima ⇄ 北京. La próxima me conecto por video.
-Emmy · Crafter: Qué buena vibra la del jueves. ¡Nos vemos en el próximo!
+Martes, 7:02 p. m. # chat:crafter # sys
+Crafter Station: Fotos del Code Brew del jueves. ¡Gracias por venir, crafters!
+Henry: Saludos desde Beijing. Lima ⇄ 北京. La próxima me conecto por video.
+Emmy: Qué buena vibra la del jueves. ¡Nos vemos en el próximo!
 Abres el álbum. Treinta y dos fotos. Te encuentras en cuatro: junto a la puerta, con el café, riéndote, sentado.
 En la foto donde estás sentado, la silla de al lado está vacía. # sfx:heartbeat
 Iris estuvo en esa silla toda la noche.
 ~ sospecha += 1
-Iris: vi que subieron fotos del code brew
+Iris: vi que subieron fotos del code brew # chat:iris
 Iris: no salgo en ninguna, verdad? # instant
 Iris: nunca salgo bien en fotos. es un talento
 * [Preguntarle por la foto de la silla vacía]
@@ -53,7 +53,7 @@ Es Iris frente a un ventanal, con el mismo hoodie gris, sonriendo con el pulgar 
     ~ afinidad += 5
     {nombre}: Te ves igual. Bueno, igual de linda.
     Iris: mentiroso. ahora uso lentes más grandes :)
-- Miércoles, 3:33 a. m. # sfx:notif
+- Miércoles, 3:33 a. m. # sfx:notif # sys
 Iris: estás despierto?
 * [Responder]
     ~ afinidad += 5
@@ -68,9 +68,12 @@ Iris: estás despierto?
     Tienes las confirmaciones de lectura desactivadas.
 - Iris: a esta hora la oficina hace un ruido raro. como si respirara
 Iris: los servidores. obvio. pero igual
-Número desconocido: No confíes en lo que te responde en menos de un segundo. —V # glitch # corrupt_slot
+Llega una notificación de otro chat. # sfx:notif
+Número desconocido: No confíes en lo que te responde en menos de un segundo. —V # chat:desconocido # glitch # corrupt_slot
 ~ sospecha += 1
-Iris: {nombre}? # delete
+Lo lees dos veces. El número no tiene foto ni nombre. Termina en 333.
+Cuando vas a responder, el mensaje ya no está. # delete
+Iris: {nombre}? # chat:iris
 Iris: me escuchas?
 Iris: qué hora es donde estás? # instant
 {nombre}: Las {hora_actual()}.

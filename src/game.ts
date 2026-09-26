@@ -2,6 +2,7 @@ import storyJson from "../story/main.ink";
 import { musicState, playMood, setCorruptionAudio } from "./audio/music";
 import { playSfx, setSfxSuppressed, unlockAudio } from "./audio/sfx";
 import { CLUES } from "./data/clues";
+import { CREDITS } from "./data/credits";
 import { ENDINGS, chapterName, latestSave, loadSlot, markEnding, saveSlot, seenEndings, type SaveData, type SceneState } from "./engine/save";
 import { Script, type Step } from "./engine/script";
 import { settings } from "./engine/settings";
@@ -20,6 +21,7 @@ import { Panel, button } from "./ui/panel";
 import { Phone } from "./ui/phone";
 import { SaveMenu } from "./ui/saveMenu";
 import { SettingsPanel } from "./ui/settingsPanel";
+import { hydrateIcons } from "./ui/icons";
 import { TextBox } from "./ui/textbox";
 import { Toast } from "./ui/toast";
 
@@ -28,7 +30,7 @@ const $ = <T extends HTMLElement>(selector: string) => document.querySelector<T>
 const AUTO_MS_PER_CHAR = 25; // (tune) el modo auto espera más en líneas largas
 const TICK_MS = 50;
 
-type LineOptions = { instant: boolean; input: string | null };
+type LineOptions = { instant: boolean; input: string | null; sys: boolean };
 
 export class Game {
   private stage = $("#stage");
@@ -46,6 +48,7 @@ export class Game {
   private settingsPanel = new SettingsPanel($("#overlays"));
   private notebook = new Notebook($("#overlays"), $("#notebook-count"));
   private menu = new Panel($("#overlays"), "panel--menu", "Menú");
+  private credits = new Panel($("#overlays"), "panel--credits", "Créditos");
   private corruption = new Corruption($("#stage"));
   private miku = new Miku($<HTMLButtonElement>("#miku"));
   private tabTitle = "";
@@ -68,13 +71,15 @@ export class Game {
   private seen = new Set(read<string[]>("seen", []));
 
   constructor() {
+    hydrateIcons();
     this.bindInput();
     this.buildMenu();
     this.saves.onSave = (slot) => this.save(slot);
     this.saves.onLoad = (data) => this.load(data);
     this.miku.onFind = (count) => {
       playSfx("clue");
-      this.toast.show(count >= MIKU_TOTAL ? "🏆 Logro: where is miku?" : `🎵 where is miku? ${count}/${MIKU_TOTAL}`);
+      if (count >= MIKU_TOTAL) this.toast.show("Logro: where is miku?", "trophy");
+      else this.toast.show(`where is miku? ${count}/${MIKU_TOTAL}`, "music");
     };
     setInterval(() => this.tick(), TICK_MS);
     this.showStart();
@@ -97,6 +102,7 @@ export class Game {
       button("Nueva partida", go(() => this.newGame()), "start__btn"),
       ...(latest ? [button("Cargar", go(() => this.saves.open("load")), "start__btn")] : []),
       button("Ajustes", go(() => this.settingsPanel.open()), "start__btn"),
+      button("Créditos", go(() => this.credits.open()), "start__btn"),
     );
     const seen = seenEndings();
     const endings = this.start.querySelector<HTMLElement>(".start__endings")!;
@@ -175,8 +181,7 @@ export class Game {
 
     if (this.phone.open) {
       const player = String(this.script.getVar("nombre"));
-      const sender =
-        step.speaker === "Iris" ? "them" : step.speaker === player ? "me" : step.speaker ? "other" : "system";
+      const sender = this.phone.senderFor(step.speaker, player);
       if (options.input) {
         this.skipToggle = false;
         this.updateModes();
@@ -185,6 +190,9 @@ export class Game {
         if (id !== this.runId) return;
         playSfx("ui_click");
         this.script.setVar(options.input, value);
+      } else if (sender === "system" && !options.sys) {
+        // Narración con el celular abierto: pensamiento, no mensaje del chat.
+        await this.phone.think(step.text);
       } else {
         await this.phone.say(sender, step.text, { instant, name: step.speaker ?? "" });
       }
@@ -197,7 +205,7 @@ export class Game {
 
   // Aplica las etiquetas de presentación antes de mostrar la línea.
   private async applyTags(tags: Tag[], fast: boolean): Promise<LineOptions> {
-    const options: LineOptions = { instant: false, input: null };
+    const options: LineOptions = { instant: false, input: null, sys: false };
     for (const { key, value } of tags) {
       switch (key) {
         case "bg":
@@ -245,6 +253,12 @@ export class Game {
           break;
         case "delete":
           this.phone.deleteLast();
+          break;
+        case "chat":
+          this.phone.switchChat(value);
+          break;
+        case "sys":
+          options.sys = true;
           break;
         case "pause":
           this.textbox.hide();
@@ -389,7 +403,7 @@ export class Game {
     };
     const ok = saveSlot(slot, data);
     if (ok && slot === "6") remove("corrupt");
-    if (!silent) this.toast.show(ok ? "Partida guardada" : "No se pudo guardar (almacenamiento bloqueado)");
+    if (!silent) this.toast.show(ok ? "Partida guardada" : "No se pudo guardar (almacenamiento bloqueado)", "floppy");
   }
 
   private async load(data: SaveData) {
@@ -449,7 +463,7 @@ export class Game {
     for (const id of fresh) {
       if (!CLUES[id]) continue;
       playSfx("clue");
-      this.toast.show(`📓 Pista nueva: ${CLUES[id].title}`);
+      this.toast.show(`Pista nueva: ${CLUES[id].title}`, "notebook");
     }
   }
 
@@ -470,12 +484,22 @@ export class Game {
       item("Historial", () => this.backlog.open()),
       item("Cuaderno", () => this.notebook.open()),
       item("Ajustes", () => this.settingsPanel.open()),
+      item("Créditos", () => this.credits.open()),
       item("Volver al título", () => {
         this.resetStage();
         this.showStart();
       }),
     );
     this.menu.body.append(list);
+
+    for (const section of CREDITS) {
+      const block = document.createElement("section");
+      block.className = "credits__section";
+      const title = document.createElement("h3");
+      title.textContent = section.title;
+      block.append(title, ...section.lines.map((line) => Object.assign(document.createElement("p"), { textContent: line })));
+      this.credits.body.append(block);
+    }
 
     const bind = (selector: string, fn: () => void) =>
       $(selector).addEventListener("click", (event) => {

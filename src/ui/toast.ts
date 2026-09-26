@@ -1,3 +1,5 @@
+import { icon, type IconName } from "./icons";
+
 // Aviso breve arriba a la derecha (pista nueva, partida guardada…).
 export class Toast {
   private host: HTMLElement;
@@ -6,10 +8,11 @@ export class Toast {
     this.host = host;
   }
 
-  show(message: string, ms = 2600) {
+  show(message: string, iconName?: IconName, ms = 2600) {
     const el = document.createElement("div");
     el.className = "toast";
-    el.textContent = message;
+    if (iconName) el.append(icon(iconName));
+    el.append(message);
     this.host.append(el);
     const anim = el.animate(
       [

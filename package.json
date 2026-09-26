@@ -11,6 +11,7 @@
     "test:story": "node tools/story-test.mjs"
   },
   "dependencies": {
+    "@phosphor-icons/core": "^2.1.1",
     "inkjs": "^2.4.0"
   },
   "devDependencies": {

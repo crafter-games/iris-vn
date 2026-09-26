@@ -41,11 +41,14 @@ node tools/route-shots.mjs   # juega la ruta "Verdad" y captura los momentos cla
   | `# iris:<expresión>` | Sprite `public/chars/iris/iris_<expresión>.png` (`hide` lo oculta). Silueta si falta. |
   | `# sfx:<clave>` | Sonido sintetizado (`src/audio/sfx.ts`): dodon, red_truth, glass_shatter, riser, stinger, heartbeat, static… |
   | `# shake:<px>` / `# flash:<color>` / `# glass` | Sacudida, destello, cristal roto. |
-  | `# phone:open` / `# phone:close` | Chat de celular; las líneas se vuelven burbujas. |
+  | `# phone:open` / `# phone:close` | Celular; los diálogos se vuelven burbujas y la narración, pensamientos. |
+  | `# chat:<id>` | Cambia de conversación: iris, crafter, desconocido, borrado (`src/ui/phone.ts`). |
+  | `# sys` | Narración como aviso dentro del chat (fechas, "Tienes un nuevo match"). |
+  | `[texto #pista]` (en opciones) | Muestra el icono del cuaderno en la opción. |
   | `# delete` | Borra el último mensaje de Iris antes de esta línea. |
   | `# input:<var>` | Pide un texto en el celular y lo guarda en la variable Ink. |
   | `# pause:<ms>` / `# titlecard` / `# instant` | Pausa, logo del juego, línea sin máquina de escribir. |
-  | `# bgm:<mood>` | Música generativa: title, warm, uneasy, office_night, horror, confession, none. |
+  | `# bgm:<mood>` | Música: `public/music/<mood>.mp3` (title, warm, uneasy, office_night, horror, confession) o `none`. Generativa si falta el archivo. |
   | `# corruption:<0-3>` | Nivel de corrupción: filtro de fondos, grano, viñeta, aberración, glitches, capas de audio, color de la UI. |
   | `# glitch` | Glitch de pantalla puntual. |
   | `# tabtitle:<texto>` | Cambia el título de la pestaña (`$nombre` = nombre del jugador; vacío = normal). |

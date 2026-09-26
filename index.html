@@ -36,27 +36,28 @@
         <section id="textbox" class="textbox" hidden>
           <div class="textbox__name"></div>
           <p class="textbox__body"></p>
-          <span class="textbox__cursor" aria-hidden="true">▼</span>
+          <span class="textbox__cursor" data-icon="caret-down" aria-hidden="true"></span>
           <nav class="quickbar" aria-label="Controles">
-            <button id="btn-auto" title="Auto (A)">Auto</button>
-            <button id="btn-skip" title="Saltar leído (mantén Ctrl)">Skip</button>
-            <button id="btn-log" title="Historial (L)">Log</button>
-            <button id="btn-save" title="Guardar (F5 = rápido)">Guardar</button>
-            <button id="btn-menu" title="Menú (Esc)">Menú</button>
+            <button id="btn-auto" data-icon="play" title="Auto (A)">Auto</button>
+            <button id="btn-skip" data-icon="forward" title="Saltar leído (mantén Ctrl)">Skip</button>
+            <button id="btn-log" data-icon="clock" title="Historial (L)">Log</button>
+            <button id="btn-save" data-icon="floppy" title="Guardar (F5 = rápido)">Guardar</button>
+            <button id="btn-menu" data-icon="list" title="Menú (Esc)">Menú</button>
           </nav>
         </section>
 
         <nav class="corner">
-          <button id="btn-notebook" class="corner__btn" title="Cuaderno (N)" aria-label="Cuaderno de pistas">
-            📓<span id="notebook-count" class="corner__count" hidden>0</span>
+          <button id="btn-notebook" class="corner__btn" data-icon="notebook" title="Cuaderno (N)" aria-label="Cuaderno de pistas">
+            <span id="notebook-count" class="corner__count" hidden>0</span>
           </button>
-          <button id="btn-menu-corner" class="corner__btn" title="Menú (Esc)" aria-label="Menú">☰</button>
+          <button id="btn-menu-corner" class="corner__btn" data-icon="list" title="Menú (Esc)" aria-label="Menú"></button>
         </nav>
 
         <section id="phone" class="phone" hidden>
+          <p class="phone__thought" aria-live="polite"></p>
           <div class="phone__device">
             <header class="phone__header">
-              <span class="phone__avatar">I</span>
+              <span class="phone__avatar"></span>
               <span>
                 <strong class="phone__contact">Iris</strong>
                 <small class="phone__status">en línea</small>
@@ -65,7 +66,7 @@
             <div class="phone__log"></div>
             <form class="phone__form" hidden>
               <input class="phone__input" autocomplete="off" enterkeyhint="send" />
-              <button class="phone__send" aria-label="Enviar">➤</button>
+              <button class="phone__send" data-icon="send" aria-label="Enviar"></button>
             </form>
           </div>
         </section>
@@ -92,7 +93,7 @@
       <div id="overlays"></div>
     </main>
     <div class="rotate" aria-hidden="true">
-      <span class="rotate__icon">⟳</span>
+      <span class="rotate__icon" data-icon="rotate"></span>
       <span>Gira tu dispositivo para jugar</span>
     </div>
     <script type="module" src="/src/main.ts"></script>

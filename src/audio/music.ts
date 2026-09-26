@@ -271,23 +271,104 @@ class CorruptionLayers {
   }
 }
 
-let player: Player | null = null;
+// Pista grabada (public/music/<mood>.mp3, créditos en public/music/CREDITS.md).
+// Se repite con crossfade en el punto de loop: las canciones tienen final, así no se nota el corte.
+const LOOP_XFADE_SEC = 4; // (tune)
+const bufferCache = new Map<string, AudioBuffer>(); // solo las dos últimas: cada pista decodificada pesa ~70 MB
+
+async function loadTrack(c: Ctx, url: string) {
+  const cached = bufferCache.get(url);
+  if (cached) return cached;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${res.status} ${url}`);
+  const buffer = await c.ac.decodeAudioData(await res.arrayBuffer());
+  bufferCache.set(url, buffer);
+  while (bufferCache.size > 2) bufferCache.delete(bufferCache.keys().next().value!);
+  return buffer;
+}
+
+class TrackPlayer {
+  private c: Ctx;
+  readonly out: GainNode;
+  private buffer: AudioBuffer | null = null;
+  private nextStart = 0;
+  private first = true;
+  private stopped = false;
+  private sources: AudioBufferSourceNode[] = [];
+
+  constructor(c: Ctx, buffer: AudioBuffer) {
+    this.c = c;
+    this.buffer = buffer;
+    this.out = c.ac.createGain();
+    this.out.gain.value = 0;
+    this.out.connect(c.music);
+    const now = c.ac.currentTime;
+    this.out.gain.setTargetAtTime(1, now, FADE_SEC / 3);
+    this.nextStart = now + 0.05;
+  }
+
+  schedule() {
+    if (this.stopped || !this.buffer) return;
+    const { ac } = this.c;
+    if (this.nextStart - ac.currentTime > 1) return;
+    const start = this.nextStart;
+    const dur = this.buffer.duration;
+    const src = ac.createBufferSource();
+    src.buffer = this.buffer;
+    const g = ac.createGain();
+    if (this.first) g.gain.setValueAtTime(1, start);
+    else {
+      g.gain.setValueAtTime(0, start);
+      g.gain.linearRampToValueAtTime(1, start + LOOP_XFADE_SEC);
+    }
+    g.gain.setValueAtTime(1, start + dur - LOOP_XFADE_SEC);
+    g.gain.linearRampToValueAtTime(0, start + dur);
+    src.connect(g).connect(this.out);
+    src.start(start);
+    src.stop(start + dur);
+    src.onended = () => (this.sources = this.sources.filter((s) => s !== src));
+    this.sources.push(src);
+    this.first = false;
+    this.nextStart = start + dur - LOOP_XFADE_SEC;
+  }
+
+  stop() {
+    this.stopped = true;
+    const now = this.c.ac.currentTime;
+    this.out.gain.cancelScheduledValues(now);
+    this.out.gain.setTargetAtTime(0, now, FADE_SEC / 4);
+    setTimeout(() => {
+      this.sources.forEach((s) => s.stop());
+      this.out.disconnect();
+    }, FADE_SEC * 2000);
+  }
+}
+
+let player: Player | TrackPlayer | null = null;
 let layers: CorruptionLayers | null = null;
 let currentMood = "";
 let currentLevel = 0;
+let request = 0;
 
 setInterval(() => player?.schedule(), 200);
 
-export function playMood(name: string) {
+export async function playMood(name: string) {
   if (name === currentMood) return;
   currentMood = name;
   const c = getAudio();
   if (!c) return; // se aplica cuando el audio se habilite
+  const id = ++request;
   player?.stop();
   player = null;
-  const mood = MOODS[name];
-  if (mood) player = new Player(c, mood);
-  else if (name && name !== "none") console.warn(`bgm desconocido: ${name}`);
+  if (!name || name === "none") return;
+  if (!MOODS[name]) return console.warn(`bgm desconocido: ${name}`);
+  try {
+    const buffer = await loadTrack(c, `${import.meta.env.BASE_URL}music/${name}.mp3`);
+    if (id === request) player = new TrackPlayer(c, buffer);
+  } catch {
+    // Sin la pista (offline, 404): música generativa del mismo mood.
+    if (id === request) player = new Player(c, MOODS[name]);
+  }
 }
 
 export function setCorruptionAudio(level: number) {

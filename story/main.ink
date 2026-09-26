@@ -1,7 +1,11 @@
 // Iris.exe — guion principal.
 // Convención: "Nombre: texto" es diálogo; una línea sin prefijo es narración.
 // Presentación con tags (ver README): # bg:… # iris:… # sfx:… # shake:… # flash:… # glass
-// # phone:open|close # delete # input:var # pause:ms # titlecard # instant # ending:id
+// # phone:open|close # chat:<iris|crafter|desconocido|borrado> # sys # delete # input:var
+// # pause:ms # titlecard # instant # ending:id
+// Con el celular abierto, la narración sale como pensamiento fuera del teléfono;
+// "# sys" la convierte en un aviso dentro del chat (fechas, "Tienes un nuevo match").
+// En las opciones, [texto #pista] muestra el icono del cuaderno.
 // Atmósfera: # bgm:<mood|none> # corruption:0-3 # glitch
 // Cuarta pared: # tabtitle:<texto con $nombre> # corrupt_slot
 // Easter egg: # miku:<id>@<x>,<y>  (peluche escondido, posición en % del escenario)

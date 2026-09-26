@@ -2,7 +2,7 @@ import { InkList, Story } from "inkjs";
 
 export type Step =
   | { kind: "line"; id: string; speaker: string | null; text: string; tags: string[] }
-  | { kind: "choices"; options: { index: number; text: string }[] }
+  | { kind: "choices"; options: { index: number; text: string; tags: string[] }[] }
   | { kind: "end" };
 
 // "Iris: hola" → hablante "Iris". Sin prefijo → narración.
@@ -44,7 +44,7 @@ export class Script {
     this.checkpoint = this.story.state.ToJson();
     const choices = this.story.currentChoices;
     if (choices.length) {
-      return { kind: "choices", options: choices.map((c) => ({ index: c.index, text: c.text })) };
+      return { kind: "choices", options: choices.map((c) => ({ index: c.index, text: c.text, tags: c.tags ?? [] })) };
     }
     return { kind: "end" };
   }

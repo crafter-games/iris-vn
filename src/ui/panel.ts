@@ -1,3 +1,5 @@
+import { icon } from "./icons";
+
 // Panel superpuesto (historial, guardar, ajustes…). Bloquea el avance mientras está abierto.
 export class Panel {
   static stack: Panel[] = [];
@@ -15,13 +17,14 @@ export class Panel {
       <div class="panel__card" role="dialog" aria-modal="true">
         <header class="panel__header">
           <h2 class="panel__title"></h2>
-          <button class="panel__close" aria-label="Cerrar">✕</button>
+          <button class="panel__close" aria-label="Cerrar"></button>
         </header>
         <div class="panel__body"></div>
       </div>`;
     this.titleEl = this.root.querySelector(".panel__title")!;
     this.titleEl.textContent = title;
     this.body = this.root.querySelector(".panel__body")!;
+    this.root.querySelector(".panel__close")!.append(icon("close"));
     this.root.querySelector(".panel__close")!.addEventListener("click", () => this.close());
     // Clic fuera de la tarjeta cierra; ningún clic dentro llega al escenario.
     this.root.addEventListener("click", (event) => {

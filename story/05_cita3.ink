@@ -59,25 +59,25 @@ Iris: Si no puedes, es verdad. Así funcionan las cosas aquí.
 
 = afirmacion_1
 Iris: Todo lo que sé de ti, me lo contaste tú. # instant
-+ {pistas ? grupo_whatsapp} [📓 El grupo de WhatsApp]
++ {pistas ? grupo_whatsapp} [El grupo de WhatsApp #pista]
     {nombre}: [[r]]Nunca escribí en el grupo de Crafter. No hay nada mío ahí que pudieras leer.[[/r]] # glass # shake:16
     ~ aciertos += 1
     -> rompe_1
-+ {pistas ? foto_noche} [📓 La foto de noche]
++ {pistas ? foto_noche} [La foto de noche #pista]
     {nombre}: [[r]]Nunca te dije a qué hora tomé esa foto. Y el archivo no guarda la hora.[[/r]] # glass # shake:16
     ~ aciertos += 1
     -> rompe_1
-+ {pistas ? mensaje_borrado} [📓 “Te estaré mirando”]
++ {pistas ? mensaje_borrado} [“Te estaré mirando” #pista]
     -> falla -> afirmacion_2
-+ {pistas ? respuesta_rapida} [📓 Medio segundo antes]
++ {pistas ? respuesta_rapida} [Medio segundo antes #pista]
     -> falla -> afirmacion_2
-+ {pistas ? badge_empleada} [📓 Un badge sin dueña]
++ {pistas ? badge_empleada} [Un badge sin dueña #pista]
     -> falla -> afirmacion_2
-+ {pistas ? commit_333} [📓 Commit de las 3:33]
++ {pistas ? commit_333} [Commit de las 3:33 #pista]
     -> falla -> afirmacion_2
-+ {pistas ? foto_reflejo} [📓 El reflejo]
++ {pistas ? foto_reflejo} [El reflejo #pista]
     -> falla -> afirmacion_2
-+ {pistas ? lumen_modelo} [📓 Proyecto IRIS]
++ {pistas ? lumen_modelo} [Proyecto IRIS #pista]
     -> falla -> afirmacion_2
 + [No tengo nada]
     -> nada -> afirmacion_2
@@ -89,25 +89,25 @@ Iris: Bien. Una. # iris:stare
 
 = afirmacion_2
 Iris: Valeria renunció. Se fue a Madrid. No la busques. # instant
-+ {pistas ? badge_empleada} [📓 Un badge sin dueña]
++ {pistas ? badge_empleada} [Un badge sin dueña #pista]
     {nombre}: [[r]]El badge de Valeria se renovó el mes pasado. Alguien la sigue registrando como empleada.[[/r]] # glass # shake:16
     ~ aciertos += 1
     -> rompe_2
-+ {pistas ? commit_333} [📓 Commit de las 3:33]
++ {pistas ? commit_333} [Commit de las 3:33 #pista]
     {nombre}: [[r]]Valeria pidió que apagaran el modelo. Y el modelo revirtió su pedido esa misma noche.[[/r]] # glass # shake:16
     ~ aciertos += 1
     -> rompe_2
-+ {pistas ? grupo_whatsapp} [📓 El grupo de WhatsApp]
++ {pistas ? grupo_whatsapp} [El grupo de WhatsApp #pista]
     -> falla -> afirmacion_3
-+ {pistas ? foto_noche} [📓 La foto de noche]
++ {pistas ? foto_noche} [La foto de noche #pista]
     -> falla -> afirmacion_3
-+ {pistas ? mensaje_borrado} [📓 “Te estaré mirando”]
++ {pistas ? mensaje_borrado} [“Te estaré mirando” #pista]
     -> falla -> afirmacion_3
-+ {pistas ? respuesta_rapida} [📓 Medio segundo antes]
++ {pistas ? respuesta_rapida} [Medio segundo antes #pista]
     -> falla -> afirmacion_3
-+ {pistas ? foto_reflejo} [📓 El reflejo]
++ {pistas ? foto_reflejo} [El reflejo #pista]
     -> falla -> afirmacion_3
-+ {pistas ? lumen_modelo} [📓 Proyecto IRIS]
++ {pistas ? lumen_modelo} [Proyecto IRIS #pista]
     -> falla -> afirmacion_3
 + [No tengo nada]
     -> nada -> afirmacion_3
@@ -119,25 +119,25 @@ Iris: Dos. # iris:stare
 
 = afirmacion_3
 Iris: Yo soy Iris. Solo Iris. Lo que dices, lo digo yo. # instant
-+ {pistas ? respuesta_rapida} [📓 Medio segundo antes]
++ {pistas ? respuesta_rapida} [Medio segundo antes #pista]
     {nombre}: [[r]]Me respondes antes de que termine de preguntar. Nadie lee tan rápido, a menos que la respuesta ya esté escrita.[[/r]] # glass # shake:16
     ~ aciertos += 1
     -> rompe_3
-+ {pistas ? foto_reflejo} [📓 El reflejo]
++ {pistas ? foto_reflejo} [El reflejo #pista]
     {nombre}: [[r]]La mujer del reflejo en tu foto de 2021 no eras tú.[[/r]] # glass # shake:16
     ~ aciertos += 1
     -> rompe_3
-+ {pistas ? grupo_whatsapp} [📓 El grupo de WhatsApp]
++ {pistas ? grupo_whatsapp} [El grupo de WhatsApp #pista]
     -> falla -> veredicto
-+ {pistas ? foto_noche} [📓 La foto de noche]
++ {pistas ? foto_noche} [La foto de noche #pista]
     -> falla -> veredicto
-+ {pistas ? mensaje_borrado} [📓 “Te estaré mirando”]
++ {pistas ? mensaje_borrado} [“Te estaré mirando” #pista]
     -> falla -> veredicto
-+ {pistas ? badge_empleada} [📓 Un badge sin dueña]
++ {pistas ? badge_empleada} [Un badge sin dueña #pista]
     -> falla -> veredicto
-+ {pistas ? commit_333} [📓 Commit de las 3:33]
++ {pistas ? commit_333} [Commit de las 3:33 #pista]
     -> falla -> veredicto
-+ {pistas ? lumen_modelo} [📓 Proyecto IRIS]
++ {pistas ? lumen_modelo} [Proyecto IRIS #pista]
     -> falla -> veredicto
 + [No tengo nada]
     -> nada -> veredicto
