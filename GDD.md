@@ -121,7 +121,7 @@ No es dificultad: es **inquietud**. La curva la lleva el nivel de corrupción (0
 
 | Key | Description | Source | Status |
 | --- | --- | --- | --- |
-| iris_neutral, iris_smile, iris_laugh, iris_blush, iris_surprised, iris_sad, iris_serious, iris_stare | Iris, 8 expresiones con look propio (gafas y hoodie si el pack lo permite) | sutemo:female-character (itch.io) | todo |
+| iris_neutral, iris_smile, iris_laugh, iris_blush, iris_surprised, iris_sad, iris_serious, iris_stare | Iris, 8 expresiones: pelo largo oscuro, lentes redondos, hoodie gris (medio cuerpo, 842×1020) | sutemo:female-character (itch.io) | done |
 | iris_glitch | Variante corrupta, generada en runtime con un shader o un filtro CSS | procedural | todo |
 | bg_codebrew | Café o bar con gente y laptops (Code Brew) | unsplash + filtro | todo |
 | bg_coworking_day | Coworking de día | unsplash + filtro | todo |

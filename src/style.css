@@ -103,7 +103,7 @@ body {
   position: absolute;
   left: 50%;
   bottom: 0;
-  height: 96cqh;
+  height: 88cqh; /* sprite de medio cuerpo: la cara queda en el tercio superior */
   transform: translateX(-50%);
   opacity: 0;
   transition: opacity 280ms ease;
@@ -113,6 +113,10 @@ body {
 
 .char--visible {
   opacity: 1;
+}
+
+#stage[data-corruption="3"] .char {
+  filter: saturate(0.7) contrast(1.08) drop-shadow(0 0 3cqh rgb(0 0 0 / 0.5));
 }
 
 /* ——— Caja de texto ——— */

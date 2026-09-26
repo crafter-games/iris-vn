@@ -15,7 +15,7 @@ Liz: ¿Eso está shipped, o "shipped"?
 Te quedas cerca de la puerta, con un vaso de café que no pediste, mirando un póster de hack0 que dice "150+ products launched".
 # iris:smile
 Iris: ¿{nombre}? Eres tú, ¿no? El del match.
-Es más bajita de lo que imaginabas. Lentes redondos, hoodie gris, el pelo largo recogido con un lápiz.
+Es más bajita de lo que imaginabas. Lentes redondos, hoodie gris con un 42 en el pecho, el pelo negro y larguísimo, suelto.
 Iris: Perdón, te reconocí por la foto. Bueno… por la foto y porque eres el único que no está mirando una pantalla. # iris:laugh
 * [Sonreír y saludarla]
     ~ afinidad += 5

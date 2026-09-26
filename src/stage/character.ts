@@ -1,6 +1,7 @@
 import { loadImage } from "./background";
 
-// Sprite de Iris. Busca /chars/iris/iris_<expresión>.png y, si no existe, dibuja una silueta placeholder.
+// Sprite de Iris (sutemo, ver public/chars/CREDITS.md). Busca /chars/iris/iris_<expresión>.png
+// y, si una expresión no existe, dibuja una silueta placeholder.
 export class Character {
   private el: HTMLImageElement;
   expression = "";
