@@ -37,6 +37,10 @@ export class Script {
     this.story.ChooseChoiceIndex(index);
   }
 
+  getVar(name: string) {
+    return this.story.variablesState.$(name);
+  }
+
   setVar(name: string, value: string | number | boolean) {
     this.story.variablesState.$(name, value);
   }

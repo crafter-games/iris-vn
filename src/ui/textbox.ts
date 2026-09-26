@@ -1,3 +1,5 @@
+import { parseMarkup, plainLength, renderSegments, type Segment } from "../engine/markup";
+
 const CHARS_PER_SECOND = 40; // (tune)
 
 // Caja de texto con efecto máquina de escribir.
@@ -8,7 +10,7 @@ export class TextBox {
   private bodyEl: HTMLElement;
   private cursorEl: HTMLElement;
   private typing = false;
-  private full = "";
+  private segments: Segment[] = [];
   private resolveLine: (() => void) | null = null;
 
   constructor(root: HTMLElement) {
@@ -18,25 +20,31 @@ export class TextBox {
     this.cursorEl = root.querySelector(".textbox__cursor")!;
   }
 
-  say(speaker: string | null, text: string): Promise<void> {
+  // `instant`: la línea aparece de golpe (Iris respondiendo "demasiado rápido").
+  say(speaker: string | null, text: string, { instant = false } = {}): Promise<void> {
     this.root.hidden = false;
     this.nameEl.textContent = speaker ?? "";
     this.nameEl.hidden = !speaker;
     this.root.classList.toggle("textbox--narration", !speaker);
-    this.full = text;
-    this.bodyEl.textContent = "";
+    this.segments = parseMarkup(text);
     this.cursorEl.hidden = true;
     this.typing = true;
 
-    const start = performance.now();
-    const tick = (now: number) => {
-      if (!this.typing) return;
-      const count = Math.floor(((now - start) / 1000) * CHARS_PER_SECOND);
-      if (count >= this.full.length) return this.finishTyping();
-      this.bodyEl.textContent = this.full.slice(0, count);
+    const total = plainLength(this.segments);
+    if (instant) {
+      this.finishTyping();
+    } else {
+      renderSegments(this.bodyEl, this.segments, 0);
+      const start = performance.now();
+      const tick = (now: number) => {
+        if (!this.typing) return;
+        const count = Math.floor(((now - start) / 1000) * CHARS_PER_SECOND);
+        if (count >= total) return this.finishTyping();
+        renderSegments(this.bodyEl, this.segments, count);
+        requestAnimationFrame(tick);
+      };
       requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
+    }
 
     return new Promise((resolve) => (this.resolveLine = resolve));
   }
@@ -60,7 +68,7 @@ export class TextBox {
 
   private finishTyping() {
     this.typing = false;
-    this.bodyEl.textContent = this.full;
+    renderSegments(this.bodyEl, this.segments);
     this.cursorEl.hidden = false;
   }
 }

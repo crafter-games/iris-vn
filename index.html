@@ -14,19 +14,50 @@
   </head>
   <body>
     <main id="stage" aria-live="polite">
-      <div class="bg"></div>
+      <div id="scene" class="scene">
+        <div class="bg">
+          <div class="bg__layer"></div>
+          <div class="bg__layer"></div>
+        </div>
+        <div class="grain" aria-hidden="true"></div>
+        <img id="iris" class="char" alt="" draggable="false" />
 
-      <section id="textbox" class="textbox" hidden>
-        <div class="textbox__name"></div>
-        <p class="textbox__body"></p>
-        <span class="textbox__cursor" aria-hidden="true">▼</span>
-      </section>
+        <section id="textbox" class="textbox" hidden>
+          <div class="textbox__name"></div>
+          <p class="textbox__body"></p>
+          <span class="textbox__cursor" aria-hidden="true">▼</span>
+        </section>
 
-      <nav id="choices" class="choices" hidden></nav>
+        <nav id="choices" class="choices" hidden></nav>
 
-      <button id="title" class="title">
-        <span class="title__logo">Iris<span class="title__ext">.exe</span></span>
-        <span class="title__hint">clic para empezar</span>
+        <section id="phone" class="phone" hidden>
+          <div class="phone__device">
+            <header class="phone__header">
+              <span class="phone__avatar">I</span>
+              <span>
+                <strong class="phone__contact">Iris</strong>
+                <small class="phone__status">en línea</small>
+              </span>
+            </header>
+            <div class="phone__log"></div>
+            <form class="phone__form" hidden>
+              <input class="phone__input" autocomplete="off" enterkeyhint="send" />
+              <button class="phone__send" aria-label="Enviar">➤</button>
+            </form>
+          </div>
+        </section>
+      </div>
+
+      <canvas id="fx-glass" class="fx-glass" aria-hidden="true"></canvas>
+      <div id="flash" class="flash" aria-hidden="true"></div>
+
+      <div id="titlecard" class="titlecard" hidden>
+        <span class="titlecard__logo">Iris<span class="titlecard__ext">.exe</span></span>
+      </div>
+
+      <button id="start" class="start">
+        <span class="start__play">▶ clic para empezar</span>
+        <span class="start__hint">se recomienda jugar con audífonos</span>
       </button>
     </main>
     <script type="module" src="/src/main.ts"></script>
