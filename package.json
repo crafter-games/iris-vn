@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "playtest": "node tools/playtest.mjs"
+    "playtest": "node tools/playtest.mjs",
+    "test:story": "node tools/story-test.mjs"
   },
   "dependencies": {
     "inkjs": "^2.4.0"

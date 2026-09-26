@@ -166,3 +166,4 @@ No es dificultad: es **inquietud**. La curva la lleva el nivel de corrupción (0
 
 - 2026-09-25: GDD creado.
 - 2026-09-25: M1 (motor de texto), M2 (presentación, SFX sintetizados, celular) y M3 (guardado, historial, skip/auto, ajustes, cuaderno) publicados en iris.crafter.run. Las pistas viven en una `LIST pistas` de Ink.
+- 2026-09-25: M4 escrito: match, prólogo, 3 citas, interludio, confrontación con 3 afirmaciones y 3 finales (~2,400–3,000 palabras por partida; por debajo de los 45–60 min previstos, ampliar en revisión).

@@ -1,7 +1,7 @@
 import storyJson from "../story/main.ink";
 import { playSfx, setSfxSuppressed, unlockAudio } from "./audio/sfx";
 import { CLUES } from "./data/clues";
-import { chapterName, latestSave, loadSlot, saveSlot, type SaveData, type SceneState } from "./engine/save";
+import { ENDINGS, chapterName, latestSave, loadSlot, markEnding, saveSlot, seenEndings, type SaveData, type SceneState } from "./engine/save";
 import { Script, type Step } from "./engine/script";
 import { settings } from "./engine/settings";
 import { read, write } from "./engine/storage";
@@ -87,6 +87,10 @@ export class Game {
       ...(latest ? [button("Cargar", go(() => this.saves.open("load")), "start__btn")] : []),
       button("Ajustes", go(() => this.settingsPanel.open()), "start__btn"),
     );
+    const seen = seenEndings();
+    const endings = this.start.querySelector<HTMLElement>(".start__endings")!;
+    endings.hidden = seen.length === 0;
+    endings.textContent = `Finales  ${ENDINGS.map((id) => (seen.includes(id) ? "◆" : "◇")).join(" ")}`;
     this.start.hidden = false;
   }
 
@@ -160,7 +164,8 @@ export class Game {
 
     if (this.phone.open) {
       const player = String(this.script.getVar("nombre"));
-      const sender = step.speaker === "Iris" ? "them" : step.speaker === player ? "me" : "system";
+      const sender =
+        step.speaker === "Iris" ? "them" : step.speaker === player ? "me" : step.speaker ? "other" : "system";
       if (options.input) {
         this.skipToggle = false;
         this.updateModes();
@@ -170,7 +175,7 @@ export class Game {
         playSfx("ui_click");
         this.script.setVar(options.input, value);
       } else {
-        await this.phone.say(sender, step.text, { instant });
+        await this.phone.say(sender, step.text, { instant, name: step.speaker ?? "" });
       }
     } else {
       await this.textbox.say(step.speaker, step.text, { instant });
@@ -225,6 +230,9 @@ export class Game {
           break;
         case "input":
           options.input = value;
+          break;
+        case "ending":
+          markEnding(value);
           break;
         case "bgm":
         case "corruption":
@@ -468,8 +476,10 @@ export class Game {
       if (event.repeat) return;
 
       if (this.choices.active) {
-        if (key === "ArrowDown" || key === "ArrowRight") this.choices.move(1);
-        else if (key === "ArrowUp" || key === "ArrowLeft") this.choices.move(-1);
+        if (key === "ArrowRight") this.choices.move(1);
+        else if (key === "ArrowLeft") this.choices.move(-1);
+        else if (key === "ArrowDown") this.choices.move(this.choices.columns);
+        else if (key === "ArrowUp") this.choices.move(-this.choices.columns);
         else if (key === "Enter" || key === " ") this.choices.confirm();
         else return;
       } else if (key === "Enter" || key === " ") this.advance();

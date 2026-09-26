@@ -1,8 +1,9 @@
 import { playSfx } from "../audio/sfx";
 import { parseMarkup, renderSegments } from "../engine/markup";
 
-export type Sender = "them" | "me" | "system";
-export type BubbleData = { sender: Sender; text: string; deleted?: boolean };
+// "other": alguien que no es Iris (un grupo, un número desconocido); la burbuja lleva su nombre.
+export type Sender = "them" | "me" | "other" | "system";
+export type BubbleData = { sender: Sender; text: string; name?: string; deleted?: boolean };
 export type PhoneState = { open: boolean; log: BubbleData[] };
 
 const DELETED_TEXT = "🚫 Este mensaje fue eliminado";
@@ -80,19 +81,19 @@ export class Phone {
     this.hide();
   }
 
-  async say(sender: Sender, text: string, { instant = false, wait = true } = {}) {
+  async say(sender: Sender, text: string, { instant = false, wait = true, name = "" } = {}) {
     this.completedAt = null;
     if (sender === "them" && !instant) await this.typingIndicator(text.length);
-    this.append({ sender, text });
-    if (sender === "them") playSfx("msg_received");
+    this.append({ sender, text, name });
+    if (sender === "them" || sender === "other") playSfx("msg_received");
     if (sender === "me") playSfx("msg_sent");
     this.completedAt = performance.now();
     if (wait) await new Promise<void>((resolve) => (this.resolveBubble = resolve));
   }
 
-  // Borra el último mensaje de ella: "Este mensaje fue eliminado".
+  // Borra el último mensaje recibido (de Iris u otro remitente): "Este mensaje fue eliminado".
   deleteLast() {
-    const index = this.log.findLastIndex((b) => b.sender === "them" && !b.deleted);
+    const index = this.log.findLastIndex((b) => (b.sender === "them" || b.sender === "other") && !b.deleted);
     if (index < 0) return;
     this.log[index].deleted = true;
     const el = this.logEl.children[index] as HTMLElement;
@@ -112,7 +113,7 @@ export class Phone {
     return new Promise((resolve) => {
       this.form.onsubmit = (event) => {
         event.preventDefault();
-        const value = this.input.value.replace(/\s+/g, " ").trim();
+        const value = this.input.value.replace(/[:[\]{}#<>|~]/g, "").replace(/\s+/g, " ").trim();
         if (!value) {
           this.input.animate([{ transform: "translateX(-4px)" }, { transform: "translateX(4px)" }, { transform: "none" }], {
             duration: 160,
@@ -145,6 +146,12 @@ export class Phone {
     el.className = `bubble bubble--${bubble.sender}${bubble.deleted ? " bubble--deleted" : ""}`;
     if (bubble.deleted) el.textContent = DELETED_TEXT;
     else renderSegments(el, parseMarkup(bubble.text));
+    if (bubble.sender === "other" && bubble.name) {
+      const name = document.createElement("span");
+      name.className = "bubble__name";
+      name.textContent = bubble.name;
+      el.prepend(name);
+    }
     this.logEl.append(el);
     this.logEl.scrollTop = this.logEl.scrollHeight;
   }

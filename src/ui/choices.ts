@@ -21,6 +21,8 @@ export class Choices {
     return new Promise((resolve) => {
       this.root.replaceChildren();
       this.root.classList.toggle("choices--phone", phone);
+      // Muchas opciones (p. ej. presentar pistas): cuadrícula compacta para que quepan.
+      this.root.classList.toggle("choices--many", !phone && options.length > 4);
       this.buttons = options.map((option, i) => {
         const button = document.createElement("button");
         button.className = "choice";
@@ -39,6 +41,11 @@ export class Choices {
       this.shownAt = performance.now();
       this.focus(0);
     });
+  }
+
+  // En cuadrícula, arriba/abajo saltan una fila (2 columnas).
+  get columns() {
+    return this.root.classList.contains("choices--many") ? 2 : 1;
   }
 
   move(delta: number) {

@@ -68,7 +68,7 @@ for (const vp of [
   await startButton(page, "Nueva partida").click();
   let finished = false;
   let shots = 1;
-  for (let i = 0; i < 150 && !finished; i++) {
+  for (let i = 0; i < 900 && !finished; i++) {
     const what = await step(page, vp);
     finished = what === "start";
     if (what === "line" && i % (vp.name === "desktop" ? 3 : 8) === 0) {

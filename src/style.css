@@ -243,6 +243,28 @@ body {
   }
 }
 
+.choices--many {
+  display: grid;
+  grid-template-columns: repeat(2, min(36cqw, 520px));
+  align-content: center;
+  justify-content: center;
+  gap: 1.2cqh 1.2cqw;
+  background: rgb(14 16 22 / 0.6);
+}
+
+.choices--many .choice {
+  width: auto;
+  padding: 1.3cqh 1.6cqw;
+  font-size: max(2.5cqh, 12px);
+}
+
+/* Si queda una sola al final (p. ej. "No tengo nada"), ocupa toda la fila. */
+.choices--many .choice:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(36cqw, 520px);
+}
+
 /* En el celular: respuestas rápidas sobre la parte baja del chat. */
 .choices--phone {
   inset: auto 0 6cqh;
@@ -354,6 +376,20 @@ body {
   align-self: flex-start;
   background: #262c3c;
   border-bottom-left-radius: 0.5cqh;
+}
+
+.bubble--other {
+  align-self: flex-start;
+  background: #1f2a2e;
+  border-bottom-left-radius: 0.5cqh;
+}
+
+.bubble__name {
+  display: block;
+  margin-bottom: 0.3cqh;
+  font-family: var(--mono);
+  font-size: max(1.6cqh, 9px);
+  color: var(--cyan);
 }
 
 .bubble--me {
@@ -536,6 +572,17 @@ body {
   color: var(--pink);
   border-color: var(--pink);
   background: rgb(232 160 180 / 0.06);
+}
+
+.start__endings {
+  font-family: var(--mono);
+  font-size: max(1.9cqh, 10px);
+  letter-spacing: 0.3em;
+  color: var(--pink);
+}
+
+.start__endings[hidden] {
+  display: none;
 }
 
 .start__hint {

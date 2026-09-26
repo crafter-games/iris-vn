@@ -26,10 +26,12 @@ pnpm install
 pnpm dev          # servidor local con recarga
 pnpm build        # typecheck + build a dist/
 pnpm preview      # sirve dist/ en :4173
-pnpm playtest     # recorre el guion en Chromium headless y guarda capturas en playtest/
+pnpm playtest     # recorre el juego en Chromium headless y guarda capturas en playtest/
+pnpm test:story   # rutas a los 3 finales + 500 partidas aleatorias, sin navegador
+node tools/route-shots.mjs   # juega la ruta "Verdad" y captura los momentos clave
 ```
 
-- El guion vive en `story/*.ink` ([Ink](https://github.com/inkle/ink)). Se compila a JSON en build (`tools/vite-plugin-ink.ts`).
+- El guion vive en `story/*.ink` (un archivo por capítulo, incluidos desde `main.ink`) ([Ink](https://github.com/inkle/ink)). Se compila a JSON en build (`tools/vite-plugin-ink.ts`).
 - `Nombre: texto` es diálogo; una línea sin prefijo es narración.
 - Tags de presentación en el guion:
 

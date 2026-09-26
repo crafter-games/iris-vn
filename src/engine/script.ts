@@ -16,16 +16,26 @@ export class Script {
 
   constructor(json: string) {
     this.story = new Story(json);
+    this.story.BindExternalFunction("hora_actual", () =>
+      new Intl.DateTimeFormat("es-PE", { hour: "numeric", minute: "2-digit" }).format(new Date()),
+    );
     this.checkpoint = this.story.state.ToJson();
   }
 
+  // Tags de líneas vacías (p. ej. "- # iris:hide"): se aplican con la siguiente línea con texto.
+  private pendingTags: string[] = [];
+
   next(): Step {
     if (this.story.canContinue) {
-      this.checkpoint = this.story.state.ToJson();
+      if (!this.pendingTags.length) this.checkpoint = this.story.state.ToJson();
       const id = this.story.state.currentPathString ?? "";
       const raw = this.story.Continue()?.trim() ?? "";
-      const tags = this.story.currentTags ?? [];
-      if (!raw) return this.next();
+      const tags = [...this.pendingTags, ...(this.story.currentTags ?? [])];
+      this.pendingTags = [];
+      if (!raw) {
+        this.pendingTags = tags;
+        return this.next();
+      }
       const match = raw.match(SPEAKER);
       return match
         ? { kind: "line", id, speaker: match[1].trim(), text: match[2].trim(), tags }
@@ -44,6 +54,7 @@ export class Script {
   }
 
   load(checkpoint: string) {
+    this.pendingTags = [];
     this.story.state.LoadJson(checkpoint);
     this.checkpoint = checkpoint;
   }
