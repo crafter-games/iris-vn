@@ -30,6 +30,7 @@ pnpm build        # typecheck + build a dist/
 pnpm preview      # sirve dist/ en :4173
 pnpm playtest     # recorre el juego en Chromium headless y guarda capturas en playtest/
 pnpm test:story   # rutas a los 3 finales + 500 partidas aleatorias, sin navegador
+node tools/og.mjs         # regenera la imagen para redes (public/og.jpg) desde tools/og.html
 node tools/route-shots.mjs   # juega la ruta "Verdad" y captura los momentos clave
 ```
 
