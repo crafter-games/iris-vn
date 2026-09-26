@@ -4,6 +4,7 @@ import caretDown from "@phosphor-icons/core/light/caret-down-light.svg?raw";
 import clock from "@phosphor-icons/core/light/clock-counter-clockwise-light.svg?raw";
 import rotate from "@phosphor-icons/core/light/device-rotate-light.svg?raw";
 import forward from "@phosphor-icons/core/light/fast-forward-light.svg?raw";
+import github from "@phosphor-icons/core/light/github-logo-light.svg?raw";
 import floppy from "@phosphor-icons/core/light/floppy-disk-light.svg?raw";
 import list from "@phosphor-icons/core/light/list-light.svg?raw";
 import music from "@phosphor-icons/core/light/music-notes-light.svg?raw";
@@ -24,6 +25,7 @@ const ICONS = {
   rotate,
   forward,
   floppy,
+  github,
   list,
   music,
   notebook,

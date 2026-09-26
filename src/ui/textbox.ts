@@ -23,7 +23,8 @@ export class TextBox {
   }
 
   // `instant`: la línea aparece de golpe (Iris respondiendo "demasiado rápido").
-  say(speaker: string | null, text: string, { instant = false } = {}): Promise<void> {
+  // `blip`: sonido de voz, se llama cada dos letras visibles mientras se escribe.
+  say(speaker: string | null, text: string, { instant = false, blip = () => {} } = {}): Promise<void> {
     this.root.hidden = false;
     this.nameEl.textContent = speaker ?? "";
     this.nameEl.hidden = !speaker;
@@ -39,11 +40,14 @@ export class TextBox {
       this.finishTyping();
     } else {
       renderSegments(this.bodyEl, this.segments, 0);
+      const plain = this.segments.map((s) => s.text).join("");
+      let shown = 0;
       const start = performance.now();
       const tick = (now: number) => {
         if (!this.typing) return;
         const count = Math.floor(((now - start) / 1000) * settings.textSpeed);
         if (count >= total) return this.finishTyping();
+        for (; shown < count; shown++) if (shown % 2 === 0 && /[\p{L}\p{N}]/u.test(plain[shown])) blip();
         renderSegments(this.bodyEl, this.segments, count);
         requestAnimationFrame(tick);
       };

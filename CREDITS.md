@@ -1,6 +1,6 @@
 # Créditos
 
-**Iris.exe** — una visual novel de citas y misterio, hecha con cariño para la comunidad de [Crafter Station](https://crafter.run).
+**Iris.exe** — una visual novel de citas y misterio, hecha por [Jibaru](https://github.com/Jibaru) para la comunidad de [Crafter Station](https://crafter.run).
 
 ## Arte
 

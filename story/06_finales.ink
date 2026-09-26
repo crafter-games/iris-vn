@@ -92,9 +92,6 @@ FINAL — Desconexión. # sfx:stinger
 
 === creditos ===
 # phone:close # iris:hide # bg:black # corruption:0 # bgm:title # tabtitle:
-Iris.exe — demo.
-Gracias por jugar, {nombre}. En serio.
-Una historia de citas, modelos y personas que se parecen demasiado. Hecha con cariño para la comunidad de Crafter Station.
-Música: Kevin MacLeod (incompetech.com), bajo licencia Creative Commons BY 4.0. Iris: sprite de sutemo. Créditos completos en el menú.
+# credits
 Hay tres finales. ¿Los encontraste todos?
 -> END

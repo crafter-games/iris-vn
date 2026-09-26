@@ -1,5 +1,7 @@
 # Iris.exe
 
+Hecho por [Jibaru](https://github.com/Jibaru) para la comunidad de [Crafter Station](https://crafter.run).
+
 Visual novel web de citas y misterio. Diseño completo en [`GDD.md`](GDD.md).
 
 **Jugar:** https://iris.crafter.run
@@ -51,6 +53,7 @@ node tools/route-shots.mjs   # juega la ruta "Verdad" y captura los momentos cla
   | `# bgm:<mood>` | Música: `public/music/<mood>.mp3` (title, warm, uneasy, office_night, horror, confession) o `none`. Generativa si falta el archivo. |
   | `# corruption:<0-3>` | Nivel de corrupción: filtro de fondos, grano, viñeta, aberración, glitches, capas de audio, color de la UI. |
   | `# glitch` | Glitch de pantalla puntual. |
+  | `# credits` | Créditos finales tipo `git log` según el último final (`src/ui/creditsRoll.ts`). |
   | `# scan` | Pantalla falsa "Eco analiza tu perfil" con datos del navegador (`src/engine/visitor.ts`); nada sale del navegador. |
   | `# flicker[:creepy|hollow|glitch]` | Iris se distorsiona una fracción de segundo y vuelve (al azar si no se indica). |
   | `# tabtitle:<texto>` | Cambia el título de la pestaña (`$nombre` = nombre del jugador; vacío = normal). |

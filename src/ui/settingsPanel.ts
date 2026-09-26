@@ -12,6 +12,7 @@ const SLIDERS: { key: NumberKey; label: string; min: number; max: number; step: 
   { key: "music", label: "Música", min: 0, max: 1, step: 0.05, format: pct },
   { key: "sfx", label: "Efectos", min: 0, max: 1, step: 0.05, format: pct },
   { key: "ui", label: "Interfaz", min: 0, max: 1, step: 0.05, format: pct },
+  { key: "blips", label: "Sonido del texto", min: 0, max: 1, step: 0.05, format: (v) => (v === 0 ? "Apagado" : pct(v)) },
 ];
 
 export class SettingsPanel {

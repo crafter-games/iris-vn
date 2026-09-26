@@ -1543,6 +1543,203 @@ body {
   }
 }
 
+/* ——— Firma y repo en el inicio ——— */
+.start__footer a,
+.roll__links a {
+  color: var(--pink);
+  text-decoration: none;
+}
+
+.start__footer a:hover,
+.roll__links a:hover {
+  text-decoration: underline;
+}
+
+.start__repo {
+  position: absolute;
+  top: 3cqh;
+  right: 2.4cqw;
+  display: inline-flex;
+  padding: 1cqh;
+  font-size: max(3.4cqh, 18px);
+  color: rgb(244 233 220 / 0.55);
+  border-radius: 50%;
+  transition: color 160ms, background 160ms;
+}
+
+.start__repo:hover {
+  color: var(--cream);
+  background: rgb(244 233 220 / 0.08);
+}
+
+/* ——— Créditos finales: git log ——— */
+.roll {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  overflow: hidden;
+  background: #030406;
+  cursor: pointer;
+}
+
+.roll[hidden] {
+  display: none;
+}
+
+.roll__iris {
+  position: absolute;
+  right: 3cqw;
+  bottom: 0;
+  height: 80cqh;
+  opacity: 0.18;
+  filter: grayscale(0.6) brightness(0.8);
+  pointer-events: none;
+  mask-image: linear-gradient(to left, #000 40%, transparent);
+}
+
+.roll__terminal {
+  position: absolute;
+  top: 8cqh;
+  left: 6cqw;
+  width: min(66cqw, 1100px);
+  height: 64cqh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--mono);
+  background: rgb(10 12 18 / 0.85);
+  border: 1px solid rgb(92 225 230 / 0.18);
+  border-radius: 0.6cqw;
+  box-shadow: 0 2cqh 6cqh rgb(0 0 0 / 0.6);
+}
+
+.roll__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6cqw;
+  padding: 1.2cqh 1.2cqw;
+  font-size: max(1.6cqh, 9px);
+  color: rgb(244 233 220 / 0.4);
+  border-bottom: 1px solid rgb(244 233 220 / 0.06);
+}
+
+.roll__bar i {
+  width: 1.2cqh;
+  height: 1.2cqh;
+  background: rgb(244 233 220 / 0.15);
+  border-radius: 50%;
+}
+
+.roll__bar span {
+  margin-left: 1cqw;
+}
+
+.roll__log {
+  flex: 1;
+  margin: 0;
+  padding: 2cqh 1.6cqw;
+  overflow: hidden;
+  list-style: none;
+}
+
+.roll__line {
+  display: grid;
+  grid-template-columns: 7ch 17ch 1fr;
+  gap: 1.4ch;
+  padding: 0.35cqh 0;
+  font-size: max(2cqh, 10px);
+  line-height: 1.45;
+  color: rgb(244 233 220 / 0.82);
+  animation: scan-in 200ms ease-out;
+}
+
+.roll__sha {
+  color: #e8b44e;
+}
+
+.roll__author {
+  overflow: hidden;
+  color: var(--cyan);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roll__line--prompt {
+  display: block;
+  margin-bottom: 1cqh;
+  color: rgb(244 233 220 / 0.5);
+}
+
+.roll__line--you .roll__author,
+.roll__line--you .roll__msg {
+  color: var(--pink);
+}
+
+.roll__line--iris,
+.roll__line--iris .roll__sha,
+.roll__line--iris .roll__author {
+  color: #ff4d63;
+  text-shadow: 0 0 1.4cqh rgb(215 38 61 / 0.5);
+}
+
+.roll__outro {
+  position: absolute;
+  left: 6cqw;
+  bottom: 6cqh;
+  display: flex;
+  flex-direction: column;
+  gap: 1cqh;
+}
+
+.roll__outro[hidden] {
+  display: none;
+}
+
+.roll__outro p {
+  margin: 0;
+}
+
+.roll__logo {
+  font-size: 8cqh;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--cream);
+}
+
+.roll__logo span {
+  font-family: var(--mono);
+  font-size: 0.45em;
+  font-weight: 400;
+  color: var(--cyan);
+}
+
+.roll__thanks {
+  font-size: max(2.6cqh, 12px);
+  font-style: italic;
+  color: rgb(244 233 220 / 0.75);
+}
+
+.roll__links {
+  display: flex;
+  gap: 2.4cqw;
+  font-family: var(--mono);
+  font-size: max(2cqh, 11px);
+}
+
+.roll__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.roll__hint {
+  font-family: var(--mono);
+  font-size: max(1.6cqh, 9px);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgb(244 233 220 / 0.35);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .grain,
   .textbox__cursor,

@@ -2,7 +2,7 @@
 // Convención: "Nombre: texto" es diálogo; una línea sin prefijo es narración.
 // Presentación con tags (ver README): # bg:… # iris:… # sfx:… # shake:… # flash:… # glass
 // # phone:open|close # chat:<iris|crafter|desconocido|borrado> # sys # delete # input:var
-// # pause:ms # titlecard # instant # ending:id
+// # pause:ms # titlecard # instant # ending:id # credits (git log de créditos según el último final)
 // Con el celular abierto, la narración sale como pensamiento fuera del teléfono;
 // "# sys" la convierte en un aviso dentro del chat (fechas, "Tienes un nuevo match").
 // En las opciones, [texto #pista] muestra el icono del cuaderno.

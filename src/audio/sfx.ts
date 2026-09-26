@@ -81,6 +81,7 @@ export function unlockAudio() {
     c.sfx.gain.setTargetAtTime(s.sfx, now, 0.05);
     c.ui.gain.setTargetAtTime(db(-10) * s.ui, now, 0.05);
     c.music.gain.setTargetAtTime(db(-6) * s.music, now, 0.05);
+    blipVolume = s.blips;
   });
 }
 
@@ -291,6 +292,39 @@ const sounds: Record<string, (c: Ctx, t: number) => void> = {
     tone(c, { at: t, freq: 2400, peak: 0.04, release: 0.03, bus: c.ui });
   },
 };
+
+// ——— Voz del texto (blips de visual novel) ———
+export type Voice = "iris" | "iris_creepy" | "me" | "other" | "narrator";
+
+const VOICES: Record<Voice, { freq: number; type: OscillatorType; gain: number; spread: number; detune?: number }> = {
+  iris: { freq: 720, type: "triangle", gain: 0.09, spread: 0.08 },
+  iris_creepy: { freq: 250, type: "sawtooth", gain: 0.06, spread: 0.03, detune: 45 },
+  me: { freq: 470, type: "triangle", gain: 0.08, spread: 0.06 },
+  other: { freq: 560, type: "square", gain: 0.04, spread: 0.06 },
+  narrator: { freq: 340, type: "sine", gain: 0.07, spread: 0.04 },
+};
+
+let blipVolume = 0.5;
+let lastBlip = 0;
+
+export function playBlip(voice: Voice) {
+  if (!ctx || suppressed || blipVolume <= 0) return;
+  const now = ctx.ac.currentTime;
+  if (now - lastBlip < 0.035) return; // tope de ~28 blips/s
+  lastBlip = now;
+  const v = VOICES[voice];
+  const osc = ctx.ac.createOscillator();
+  osc.type = v.type;
+  osc.frequency.value = v.freq * (1 + (Math.random() * 2 - 1) * v.spread);
+  if (v.detune) osc.detune.value = (Math.random() * 2 - 1) * v.detune;
+  const lp = ctx.ac.createBiquadFilter();
+  lp.type = "lowpass";
+  lp.frequency.value = 2400;
+  const env = envelope(ctx, now, v.gain * blipVolume, 0.004, 0.05);
+  osc.connect(lp).connect(env).connect(ctx.ui);
+  osc.start(now);
+  osc.stop(now + 0.08);
+}
 
 export function duckMusic(ms = 1600) {
   if (!ctx) return;

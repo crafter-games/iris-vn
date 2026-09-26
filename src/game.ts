@@ -1,6 +1,6 @@
 import storyJson from "../story/main.ink";
 import { musicState, playMood, setCorruptionAudio } from "./audio/music";
-import { playSfx, setSfxSuppressed, unlockAudio } from "./audio/sfx";
+import { playBlip, playSfx, setSfxSuppressed, unlockAudio, type Voice } from "./audio/sfx";
 import { CLUES } from "./data/clues";
 import { CREDITS } from "./data/credits";
 import { ENDINGS, chapterName, latestSave, loadSlot, markEnding, saveSlot, seenEndings, type SaveData, type SceneState } from "./engine/save";
@@ -25,6 +25,8 @@ import { hydrateIcons } from "./ui/icons";
 import { TitleScreen } from "./ui/titleScreen";
 import { TextBox } from "./ui/textbox";
 import { Scan } from "./ui/scan";
+import { CreditsRoll } from "./ui/creditsRoll";
+import { AUTHOR, REPO_URL } from "./data/credits";
 import { Toast } from "./ui/toast";
 import * as visitor from "./engine/visitor";
 import { CLUE_ORDER } from "./data/clues";
@@ -55,6 +57,8 @@ export class Game {
   private credits = new Panel($("#overlays"), "panel--credits", "Créditos");
   private title = new TitleScreen($("#start"));
   private scan = new Scan($("#scan"));
+  private roll = new CreditsRoll($("#roll"));
+  private lastEnding = "";
   private corruption = new Corruption($("#stage"));
   private miku = new Miku($<HTMLButtonElement>("#miku"));
   private tabTitle = "";
@@ -78,6 +82,12 @@ export class Game {
 
   constructor() {
     hydrateIcons();
+    // Firma y repo en la pantalla de inicio.
+    const by = $<HTMLAnchorElement>(".start__by");
+    by.href = AUTHOR.url;
+    by.textContent = AUTHOR.name;
+    $<HTMLAnchorElement>(".start__repo").href = REPO_URL;
+    document.querySelectorAll(".start a").forEach((a) => a.addEventListener("click", (event) => event.stopPropagation()));
     this.bindInput();
     this.buildMenu();
     this.saves.onSave = (slot) => this.save(slot);
@@ -205,7 +215,8 @@ export class Game {
         await this.phone.say(sender, step.text, { instant, name: step.speaker ?? "" });
       }
     } else {
-      await this.textbox.say(step.speaker, step.text, { instant });
+      const voice = this.voiceFor(step.speaker);
+      await this.textbox.say(step.speaker, step.text, { instant, blip: () => playBlip(voice) });
     }
     if (id !== this.runId) return;
     this.markSeen(step.id);
@@ -289,6 +300,10 @@ export class Game {
           break;
         case "ending":
           markEnding(value);
+          this.lastEnding = value;
+          break;
+        case "credits":
+          if (!fast) await this.roll.play(this.lastEnding || "desconexion", String(this.script.getVar("nombre")), seenEndings().length);
           break;
         case "bgm":
           playMood(value);
@@ -326,6 +341,16 @@ export class Game {
     );
   }
 
+  // Iris suena distinta cuando te mira fijo o cuando todo está corrupto.
+  private voiceFor(speaker: string | null): Voice {
+    if (!speaker) return "narrator";
+    if (speaker === "Iris") {
+      const creepy = ["stare", "creepy", "hollow", "glitch"].includes(this.iris.state) || this.corruption.level >= 3;
+      return creepy ? "iris_creepy" : "iris";
+    }
+    return speaker === String(this.script.getVar("nombre")) ? "me" : "other";
+  }
+
   // Título a mitad de escena: aparece tras el "dodon" y espera un avance.
   private async showTitlecard() {
     this.textbox.hide();
@@ -351,6 +376,7 @@ export class Game {
       return resolve();
     }
     if (Panel.anyOpen || this.choices.active || this.phone.asking) return;
+    if (this.roll.open) return this.roll.advance();
     if (this.scan.open) return this.scan.advance();
     if (this.phone.open) this.phone.advance();
     else this.textbox.advance();
@@ -472,6 +498,7 @@ export class Game {
     this.titlecard.hidden = true;
     this.textbox.reset();
     this.scan.reset();
+    this.roll.reset();
     this.choices.cancel();
     this.phone.reset();
     this.iris.hide();

@@ -8,6 +8,7 @@ export type Settings = {
   music: number;
   sfx: number;
   ui: number;
+  blips: number; // sonido del texto; 0 = apagado
 };
 
 const DEFAULTS: Settings = {
@@ -18,6 +19,7 @@ const DEFAULTS: Settings = {
   music: 0.7,
   sfx: 0.9,
   ui: 0.6,
+  blips: 0.5,
 };
 
 export const settings: Settings = { ...DEFAULTS, ...read<Partial<Settings>>("settings", {}) };
