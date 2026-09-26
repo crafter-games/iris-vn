@@ -4,6 +4,7 @@
 # bg:street_night # sfx:whoosh # corruption:0
 Sábado. Cruzas Miraflores con la garúa pegada a la ropa, siguiendo un pin que no tiene nombre.
 # bg:coworking_day # sfx:door # bgm:warm
+# miku:coworking@88,40
 El coworking es luminoso, lleno de plantas y de gente que trabaja un sábado porque quiere, o porque no sabe qué más hacer.
 Iris ya está ahí, en una mesa junto a la ventana, con dos cafés servidos.
 # iris:smile
@@ -43,7 +44,7 @@ Iris: Ya no está.
 Iris se ríe con todo el cuerpo. Se tapa la boca cuando lo hace, como si reírse fuera un secreto. # iris:laugh
 Por un rato, todo es exactamente lo que parece: una cita buena. Una cita de verdad.
 # sfx:clock
-Su celular vibra sobre la mesa. 3:33 p. m. # iris:surprised
+Su celular vibra sobre la mesa. 3:33 p. m. # iris:surprised # glitch
 Iris lo voltea boca abajo sin mirarlo. # iris:neutral
 Iris: Alarma para tomar agua. Si no, me olvido. # instant
 No toma agua.

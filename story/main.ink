@@ -2,7 +2,9 @@
 // Convención: "Nombre: texto" es diálogo; una línea sin prefijo es narración.
 // Presentación con tags (ver README): # bg:… # iris:… # sfx:… # shake:… # flash:… # glass
 // # phone:open|close # delete # input:var # pause:ms # titlecard # instant # ending:id
-// Para M5 (todavía sin efecto): # bgm:… # corruption:0-3
+// Atmósfera: # bgm:<mood|none> # corruption:0-3 # glitch
+// Cuarta pared: # tabtitle:<texto con $nombre> # corrupt_slot
+// Easter egg: # miku:<id>@<x>,<y>  (peluche escondido, posición en % del escenario)
 // Verdad roja: [[r]]texto[[/r]]
 // Los cameos de Crafter Station son siempre amables y periféricos (ver GDD).
 

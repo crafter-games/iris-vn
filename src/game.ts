@@ -1,14 +1,17 @@
 import storyJson from "../story/main.ink";
+import { musicState, playMood, setCorruptionAudio } from "./audio/music";
 import { playSfx, setSfxSuppressed, unlockAudio } from "./audio/sfx";
 import { CLUES } from "./data/clues";
 import { ENDINGS, chapterName, latestSave, loadSlot, markEnding, saveSlot, seenEndings, type SaveData, type SceneState } from "./engine/save";
 import { Script, type Step } from "./engine/script";
 import { settings } from "./engine/settings";
-import { read, write } from "./engine/storage";
+import { read, remove, write } from "./engine/storage";
 import { parseTags, type Tag } from "./engine/tags";
 import { wait } from "./engine/wait";
 import { Background } from "./stage/background";
 import { Character } from "./stage/character";
+import { Corruption } from "./stage/corruption";
+import { MIKU_TOTAL, Miku } from "./stage/miku";
 import { Effects } from "./stage/effects";
 import { Backlog } from "./ui/backlog";
 import { Choices } from "./ui/choices";
@@ -43,6 +46,9 @@ export class Game {
   private settingsPanel = new SettingsPanel($("#overlays"));
   private notebook = new Notebook($("#overlays"), $("#notebook-count"));
   private menu = new Panel($("#overlays"), "panel--menu", "Menú");
+  private corruption = new Corruption($("#stage"));
+  private miku = new Miku($<HTMLButtonElement>("#miku"));
+  private tabTitle = "";
 
   private script = new Script(storyJson);
   private runId = 0;
@@ -66,6 +72,10 @@ export class Game {
     this.buildMenu();
     this.saves.onSave = (slot) => this.save(slot);
     this.saves.onLoad = (data) => this.load(data);
+    this.miku.onFind = (count) => {
+      playSfx("clue");
+      this.toast.show(count >= MIKU_TOTAL ? "🏆 Logro: where is miku?" : `🎵 where is miku? ${count}/${MIKU_TOTAL}`);
+    };
     setInterval(() => this.tick(), TICK_MS);
     this.showStart();
   }
@@ -74,6 +84,7 @@ export class Game {
 
   private showStart() {
     this.playing = false;
+    playMood("title");
     const actions = this.start.querySelector(".start__actions")!;
     const latest = latestSave();
     const go = (fn: () => void) => () => {
@@ -191,6 +202,23 @@ export class Game {
       switch (key) {
         case "bg":
           await this.background.show(value);
+          this.miku.hide();
+          break;
+        case "miku":
+          this.miku.place(value);
+          break;
+        case "glitch":
+          if (!fast) {
+            this.effects.glitch();
+            playSfx("static");
+          }
+          break;
+        case "tabtitle":
+          this.setTab(value.replaceAll("$nombre", String(this.script.getVar("nombre"))));
+          break;
+        case "corrupt_slot":
+          // Cuarta pared: una ranura vacía aparece "corrupta" con el nombre del jugador.
+          if (!loadSlot("6")) write("corrupt", String(this.script.getVar("nombre")));
           break;
         case "iris":
           await this.iris.show(value);
@@ -235,8 +263,10 @@ export class Game {
           markEnding(value);
           break;
         case "bgm":
+          playMood(value);
+          break;
         case "corruption":
-          // M5: música por capas y nivel de corrupción.
+          this.setCorruption(Number(value) || 0);
           break;
         default:
           console.warn(`tag desconocido: #${key}:${value}`);
@@ -296,6 +326,10 @@ export class Game {
         this.updateModes();
       }
     }
+    if (!this.skipping && Math.random() < this.corruption.glitchChance(TICK_MS)) {
+      this.effects.glitch();
+      playSfx("static");
+    }
     if (this.auto && !this.resolveTitlecard) {
       const done = this.phone.open ? this.phone.completedAt : this.textbox.completedAt;
       const waitMs = settings.autoDelay + this.stepExcerpt.length * AUTO_MS_PER_CHAR;
@@ -330,7 +364,15 @@ export class Game {
   // ——— Guardar / cargar ———
 
   private captureScene(): SceneState {
-    return { bg: this.background.current, iris: this.iris.state, phone: this.phone.state };
+    return {
+      bg: this.background.current,
+      iris: this.iris.state,
+      phone: this.phone.state,
+      bgm: musicState(),
+      corruption: this.corruption.level,
+      tab: this.tabTitle,
+      miku: this.miku.state,
+    };
   }
 
   private save(slot: string, silent = false) {
@@ -346,6 +388,7 @@ export class Game {
       excerpt: this.stepExcerpt.slice(0, 90),
     };
     const ok = saveSlot(slot, data);
+    if (ok && slot === "6") remove("corrupt");
     if (!silent) this.toast.show(ok ? "Partida guardada" : "No se pudo guardar (almacenamiento bloqueado)");
   }
 
@@ -359,6 +402,10 @@ export class Game {
     await this.background.show(data.scene.bg || "black");
     await this.iris.show(data.scene.iris || "hide");
     this.phone.restore(data.scene.phone);
+    this.setCorruption(data.scene.corruption ?? 0);
+    playMood(data.scene.bgm || "none");
+    this.setTab(data.scene.tab ?? "");
+    if (data.scene.miku) this.miku.place(data.scene.miku);
     this.begin();
   }
 
@@ -376,7 +423,22 @@ export class Game {
     this.skipToggle = this.auto = false;
     this.updateModes();
     setSfxSuppressed(false);
+    this.setCorruption(0);
+    this.setTab("");
+    this.miku.hide();
+    playMood("none");
     while (Panel.anyOpen) Panel.closeTop();
+  }
+
+  private setCorruption(level: number) {
+    this.corruption.set(level);
+    setCorruptionAudio(this.corruption.level);
+  }
+
+  // Cuarta pared: el título de la pestaña del navegador.
+  private setTab(title: string) {
+    this.tabTitle = title;
+    document.title = title || "Iris.exe";
   }
 
   private syncNotebook(announce: boolean) {

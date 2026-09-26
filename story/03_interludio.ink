@@ -68,7 +68,7 @@ Iris: estás despierto?
     Tienes las confirmaciones de lectura desactivadas.
 - Iris: a esta hora la oficina hace un ruido raro. como si respirara
 Iris: los servidores. obvio. pero igual
-Número desconocido: No confíes en lo que te responde en menos de un segundo. —V
+Número desconocido: No confíes en lo que te responde en menos de un segundo. —V # glitch # corrupt_slot
 ~ sospecha += 1
 Iris: {nombre}? # delete
 Iris: me escuchas?

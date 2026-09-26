@@ -13,6 +13,15 @@
     />
   </head>
   <body>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <filter id="chroma" color-interpolation-filters="sRGB">
+        <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+        <feOffset in="r" dx="0" dy="0" result="rs" />
+        <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" result="gb" />
+        <feOffset in="gb" dx="0" dy="0" result="gbs" />
+        <feBlend in="rs" in2="gbs" mode="screen" />
+      </filter>
+    </svg>
     <main id="stage" aria-live="polite">
       <div id="scene" class="scene">
         <div class="bg">
@@ -20,6 +29,8 @@
           <div class="bg__layer"></div>
         </div>
         <div class="grain" aria-hidden="true"></div>
+        <div class="vignette" aria-hidden="true"></div>
+        <button id="miku" class="miku" aria-label="¿Un peluche?" hidden></button>
         <img id="iris" class="char" alt="" draggable="false" />
 
         <section id="textbox" class="textbox" hidden>
@@ -80,6 +91,10 @@
 
       <div id="overlays"></div>
     </main>
+    <div class="rotate" aria-hidden="true">
+      <span class="rotate__icon">⟳</span>
+      <span>Gira tu dispositivo para jugar</span>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

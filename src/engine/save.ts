@@ -2,7 +2,15 @@ import type { Entry } from "../ui/backlog";
 import type { PhoneState } from "../ui/phone";
 import { read, write } from "./storage";
 
-export type SceneState = { bg: string; iris: string; phone: PhoneState };
+export type SceneState = {
+  bg: string;
+  iris: string;
+  phone: PhoneState;
+  bgm?: string;
+  corruption?: number;
+  tab?: string;
+  miku?: string;
+};
 
 export type SaveData = {
   v: 1;

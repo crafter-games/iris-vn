@@ -45,6 +45,12 @@ node tools/route-shots.mjs   # juega la ruta "Verdad" y captura los momentos cla
   | `# delete` | Borra el último mensaje de Iris antes de esta línea. |
   | `# input:<var>` | Pide un texto en el celular y lo guarda en la variable Ink. |
   | `# pause:<ms>` / `# titlecard` / `# instant` | Pausa, logo del juego, línea sin máquina de escribir. |
+  | `# bgm:<mood>` | Música generativa: title, warm, uneasy, office_night, horror, confession, none. |
+  | `# corruption:<0-3>` | Nivel de corrupción: filtro de fondos, grano, viñeta, aberración, glitches, capas de audio, color de la UI. |
+  | `# glitch` | Glitch de pantalla puntual. |
+  | `# tabtitle:<texto>` | Cambia el título de la pestaña (`$nombre` = nombre del jugador; vacío = normal). |
+  | `# corrupt_slot` | La ranura 6, si está vacía, aparece "corrupta" con el nombre del jugador. |
+  | `# miku:<id>@<x>,<y>` | Peluche escondido clicable (logro "where is miku?"). |
   | `[[r]]…[[/r]]` | Verdad roja (destello + sonido). |
 
 - Pistas: `LIST pistas` en Ink (`~ pistas += foto_noche`); los textos del cuaderno están en `src/data/clues.ts`.

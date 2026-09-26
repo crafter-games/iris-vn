@@ -4,6 +4,7 @@
 # bg:street_night # corruption:3 # sfx:whoosh
 Sábado, 8:40 p. m. Barranco. Una casona vieja partida en departamentos, con un portón que chirría como en las películas.
 # bg:apartment # sfx:door # bgm:warm
+# miku:apartment@80,50
 El departamento de Iris es cálido y pequeño. Madera en las paredes, luces ámbar, una ventana grande que da a la oscuridad del mar.
 # iris:smile
 Iris: Pasa. Hice ají de gallina. Mi abuela diría que está mal. Mi abuela diría que todo está mal.
@@ -30,7 +31,7 @@ Iris: Valeria y yo. Todo el mundo nos confundía. Nos divertía. # iris:smile
     ~ afinidad += 5
     {nombre}: Se ven felices.
     Iris: Lo éramos. Antes de la fase 3. # iris:sad
-- # sfx:static # flash:black
+- # sfx:static # flash:black # glitch
 La luz parpadea. Una vez. Dos. Iris no reacciona.
 Iris: {nombre}. Te dije que tenía algo que preguntarte. # iris:serious
 Iris: ¿Confías en mí?
@@ -50,7 +51,7 @@ Iris: ¿Confías en mí?
     -> confrontacion
 
 === confrontacion ===
-# bg:apartment_dark # iris:stare # sfx:stinger # shake:8 # bgm:horror
+# bg:apartment_dark # iris:stare # sfx:stinger # shake:8 # bgm:horror # tabtitle:Iris.exe — te veo, $nombre
 Las luces se apagan del todo. Solo queda el reflejo del mar en la ventana y la cara de Iris.
 Iris: Vamos a jugar a algo, {nombre}. Yo digo algo. Tú me demuestras que es mentira. # instant
 Iris: Si no puedes, es verdad. Así funcionan las cosas aquí.

@@ -10,7 +10,7 @@ Iris: Viniste. Pensé que te ibas a asustar con lo de las 3:33.
 Iris: No sé. ¿Te escribo a esa hora? # iris:neutral # instant
 Pasa su badge por el lector. La puerta tarda en abrir, como si lo pensara. # sfx:door
 # bg:office_night # iris:hide
-La oficina de Lumen Labs es un pasillo largo de salas de vidrio. Todas vacías. Todas con las pantallas encendidas.
+La oficina de Lumen Labs es un pasillo largo de salas de vidrio. Todas vacías. Todas con las pantallas encendidas. # miku:office@7,58
 Al fondo, en la única sala con luz, un chico con audífonos habla en portugués con alguien por videollamada.
 Iris: Es Gabriel, el dev de guardia. Está con el equipo de Brasil. # iris:smile
 Gabriel levanta la mano sin dejar de hablar. En su pantalla hay un post-it pegado: "Give me a challenge."
@@ -84,7 +84,7 @@ Iris: Ven. Te quiero mostrar dónde vive. # iris:smile
 {nombre}: ¿Quién?
 Iris: El modelo. # iris:neutral
 # bg:server_room # iris:hide # sfx:whoosh
-La sala de servidores es fría y blanca. Filas de racks negros con lucecitas verdes que parpadean sin ritmo.
+La sala de servidores es fría y blanca. Filas de racks negros con lucecitas verdes que parpadean sin ritmo. # miku:server@92,60
 El ruido es constante, como una respiración que no necesita pausas.
 # iris:neutral
 Iris: A veces vengo aquí cuando no puedo dormir. Me siento en el piso y hablo con él.
@@ -100,7 +100,7 @@ Iris: A veces le pregunto dónde está. Y a veces me contesta.
     Iris: Que está aquí. # iris:stare # instant
     Iris: Que siempre estuvo aquí.
 - [[r]]Valeria Ríos no tomó ningún vuelo a Madrid.[[/r]] # sfx:dodon # shake:12
-# bg:black # iris:hide # sfx:stinger
+# bg:black # iris:hide # sfx:stinger # glitch
 Las luces se apagan de golpe. Solo quedan los LEDs verdes y la pantalla del celular de Iris, iluminándole la cara desde abajo.
 Está leyendo algo. Mueve los labios sin sonido.
 En su oreja izquierda, un audífono que no habías visto. De él sale una voz muy baja. Una voz de mujer.

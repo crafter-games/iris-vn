@@ -25,6 +25,10 @@ let claim = 0;
 let shot = 0;
 const snap = async (label) => page.screenshot({ path: `playtest/route/${String(shot++).padStart(2, "0")}-${label}.png` });
 const seen = new Set();
+const levels = new Set();
+const titles = new Set();
+let mikus = 0;
+let sawCorruptSlot = false;
 
 for (let i = 0; i < 1200; i++) {
   await page.waitForTimeout(60);
@@ -49,6 +53,23 @@ for (let i = 0; i < 1200; i++) {
     await page.locator(".choice").nth(index).click();
     continue;
   }
+  levels.add(await page.getAttribute("#stage", "data-corruption"));
+  titles.add(await page.title());
+  if (await page.isVisible("#miku:not(.miku--found)")) {
+    await page.click("#miku");
+    mikus++;
+    await snap("miku");
+  }
+  // Tras el interludio, la ranura 6 debe verse corrupta en "Cargar".
+  if (!sawCorruptSlot && (await page.evaluate(() => localStorage.getItem("iris.corrupt")))) {
+    sawCorruptSlot = true;
+    await page.keyboard.press("Escape");
+    await page.locator(".menu__item", { hasText: "Cargar" }).click();
+    await page.waitForTimeout(300);
+    await snap("corrupt-slot");
+    sawCorruptSlot = await page.isVisible(".slot--corrupt");
+    await page.keyboard.press("Escape");
+  }
   await page.keyboard.press("Space");
   await page.waitForTimeout(40);
   // Captura la primera línea de cada fondo nuevo, y las verdades rojas.
@@ -64,5 +85,7 @@ for (let i = 0; i < 1200; i++) {
   if (await page.isVisible("#choices")) continue;
   await page.keyboard.press("Space");
 }
+console.log(`niveles de corrupción: ${[...levels].sort().join(",")} · peluches: ${mikus} · ranura corrupta: ${sawCorruptSlot}`);
+console.log(`títulos de pestaña: ${[...titles].join(" | ")}`);
 console.log(`capturas: ${shot} · errores: ${errors.length ? errors.join(" | ") : "ninguno"}`);
 await browser.close();

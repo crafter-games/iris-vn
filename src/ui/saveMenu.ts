@@ -1,4 +1,6 @@
+import { playSfx } from "../audio/sfx";
 import { ALL_SLOTS, MANUAL_SLOTS, loadSlot, type SaveData } from "../engine/save";
+import { read } from "../engine/storage";
 import { Panel } from "./panel";
 
 const SLOT_LABEL: Record<string, string> = { auto: "Auto", quick: "Rápido" };
@@ -28,8 +30,17 @@ export class SaveMenu {
     this.panel.close();
   }
 
+  private corruptCard(name: string, mode: "save" | "load") {
+    return corruptCardFor(name, mode, () => {
+      this.onSave("6");
+      this.open("save");
+    });
+  }
+
   private card(slot: string, mode: "save" | "load") {
     const data = loadSlot(slot);
+    const corrupt = slot === "6" && !data ? read<string | null>("corrupt", null) : null;
+    if (corrupt) return this.corruptCard(corrupt, mode);
     const el = document.createElement("button");
     el.className = "slot";
     el.disabled = mode === "load" && !data;
@@ -67,6 +78,25 @@ export class SaveMenu {
     });
     return el;
   }
+}
+
+// Cuarta pared: una ranura que el jugador nunca usó, con su nombre adentro.
+function corruptCardFor(name: string, mode: "save" | "load", onSave: () => void) {
+  const el = document.createElement("button");
+  el.className = "slot slot--corrupt";
+  el.append(
+    span("slot__label", "R̷a̷n̷u̷r̷a̷ ̷6̷"),
+    span("slot__chapter", "██████ · ████"),
+    span("slot__excerpt", `te estaré mirando, ${name}`),
+    span("slot__date", "03/03/33, 3:33 a. m."),
+  );
+  el.addEventListener("click", (event) => {
+    event.stopPropagation();
+    if (mode === "save") return onSave();
+    playSfx("static");
+    el.animate([{ filter: "none" }, { filter: "invert(1) hue-rotate(90deg)" }, { filter: "none" }], { duration: 300, easing: "steps(3)" });
+  });
+  return el;
 }
 
 function span(className: string, text: string) {

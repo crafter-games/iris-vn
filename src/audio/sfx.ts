@@ -1,19 +1,35 @@
 import { onSettings } from "../engine/settings";
 
 // Efectos de sonido sintetizados con Web Audio: sin archivos ni licencias.
-// Buses: master → sfx / ui / music. Todo lo "dramático" pasa por una reverb larga.
+// Buses: master → sfx / ui / music (→ duck). Todo lo "dramático" pasa por una reverb larga.
 
-type Ctx = {
+export type Ctx = {
   ac: AudioContext;
   master: GainNode;
   sfx: GainNode;
   ui: GainNode;
   music: GainNode;
+  duck: GainNode; // la música baja aquí durante los golpes dramáticos
   reverb: ConvolverNode;
   noise: AudioBuffer;
 };
 
+// Sonidos que bajan la música mientras suenan (ducking).
+const DUCKING = new Set(["dodon", "red_truth", "glass_shatter", "stinger"]);
+const DUCK_DB = -8; // (tune)
+
 let ctx: Ctx | null = null;
+const unlockListeners = new Set<(c: Ctx) => void>();
+
+export function getAudio() {
+  return ctx;
+}
+
+// Avisa cuando el audio queda habilitado (o de inmediato si ya lo está).
+export function onAudioReady(fn: (c: Ctx) => void) {
+  if (ctx) fn(ctx);
+  else unlockListeners.add(fn);
+}
 // Durante el skip no suenan efectos: solo se ven los cambios de escena.
 let suppressed = false;
 
@@ -21,7 +37,7 @@ export function setSfxSuppressed(value: boolean) {
   suppressed = value;
 }
 
-const db = (value: number) => Math.pow(10, value / 20);
+export const db = (value: number) => Math.pow(10, value / 20);
 
 // Debe llamarse dentro de un gesto del usuario (clic/tap) para que el navegador permita audio.
 export function unlockAudio() {
@@ -51,8 +67,14 @@ export function unlockAudio() {
   const data = noise.getChannelData(0);
   for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
 
-  const c: Ctx = { ac, master, sfx: bus(0), ui: bus(-10), music: bus(-6), reverb, noise };
+  const duck = bus(0);
+  const music = ac.createGain();
+  music.connect(duck);
+
+  const c: Ctx = { ac, master, sfx: bus(0), ui: bus(-10), music, duck, reverb, noise };
   ctx = c;
+  unlockListeners.forEach((fn) => fn(c));
+  unlockListeners.clear();
   onSettings((s) => {
     const now = ac.currentTime;
     c.master.gain.setTargetAtTime(db(-3) * s.master, now, 0.05);
@@ -270,8 +292,18 @@ const sounds: Record<string, (c: Ctx, t: number) => void> = {
   },
 };
 
+export function duckMusic(ms = 1600) {
+  if (!ctx) return;
+  const gain = ctx.duck.gain;
+  const now = ctx.ac.currentTime;
+  gain.cancelScheduledValues(now);
+  gain.setTargetAtTime(db(DUCK_DB), now, 0.03);
+  gain.setTargetAtTime(1, now + ms / 1000, 0.5);
+}
+
 export function playSfx(key: string) {
   if (!ctx || suppressed) return;
+  if (DUCKING.has(key.replace(/^sfx_/, ""))) duckMusic();
   const sound = sounds[key.replace(/^sfx_/, "")];
   if (!sound) {
     console.warn(`sfx desconocido: ${key}`);

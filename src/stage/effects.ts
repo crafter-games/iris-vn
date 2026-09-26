@@ -31,6 +31,36 @@ export class Effects {
     this.flashEl.animate([{ opacity: 0.9 }, { opacity: 0 }], { duration: duration + 220, easing: "ease-out" });
   }
 
+  // Glitch breve: la escena tiembla de lado y unas franjas cambian de color, como una señal que se corta.
+  glitch(duration = 280) {
+    const { scene } = this;
+    const frames: Keyframe[] = [];
+    for (let i = 0; i < 6; i++) {
+      const x = (Math.random() - 0.5) * 3;
+      frames.push({ transform: `translateX(${x}%) skewX(${(Math.random() - 0.5) * 4}deg)`, filter: `hue-rotate(${Math.random() * 90}deg)` });
+    }
+    frames.push({ transform: "none", filter: "none" });
+    scene.animate(frames, { duration, easing: "steps(6)" });
+
+    for (let i = 0; i < 4; i++) {
+      const bar = document.createElement("div");
+      bar.className = "glitch-bar";
+      bar.style.top = `${Math.random() * 90}%`;
+      bar.style.height = `${2 + Math.random() * 8}%`;
+      scene.append(bar);
+      bar
+        .animate(
+          [
+            { transform: `translateX(${(Math.random() - 0.5) * 8}%)`, opacity: 1 },
+            { transform: `translateX(${(Math.random() - 0.5) * 8}%)`, opacity: 1 },
+            { opacity: 0 },
+          ],
+          { duration, easing: "steps(3)" },
+        )
+        .finished.then(() => bar.remove());
+    }
+  }
+
   // Grietas radiales dibujadas en canvas; aparecen de golpe y se desvanecen.
   glass(duration = 400) {
     const { canvas } = this;

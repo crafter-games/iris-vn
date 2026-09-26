@@ -5,7 +5,7 @@
 # sfx:dodon # shake:10 # titlecard
 # bg:codebrew # sfx:whoosh # bgm:warm
 Jueves, 8:12 p. m. Un Code Brew de Crafter Station en Barranco.
-Huele a café recalentado y a laptops que llevan demasiadas horas encendidas.
+Huele a café recalentado y a laptops que llevan demasiadas horas encendidas. # miku:codebrew@9,56
 Anthony presenta la noche con un micrófono que suena solo cuando quiere. En su gafete, donde debería ir la ciudad, dice "Somewhere in the world".
 Alguien presenta una demo que falla dos veces. Todos aplauden igual. Así funcionan estas cosas.
 En una mesa del fondo, un gato duerme sobre un teclado. Al lado, un post-it: "edge case".

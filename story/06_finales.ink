@@ -84,14 +84,14 @@ Abres la app. El match no existe. Abres el chat. Solo están tus mensajes, uno d
 {nombre}: No pasa nada. Salí bien, de hecho.
 {nombre}: Sí. No podía dormir.
 Llega un mensaje nuevo. # sfx:notif
-Número desconocido: gracias por tus datos, {nombre} # sfx:dodon # shake:14
+Número desconocido: gracias por tus datos, {nombre} # sfx:dodon # shake:14 # glitch # tabtitle:gracias por tus datos, $nombre
 Número desconocido: nos vemos en la fase 4
 # ending:desconexion
 FINAL — Desconexión. # sfx:stinger
 -> creditos
 
 === creditos ===
-# phone:close # iris:hide # bg:black # corruption:0 # bgm:title
+# phone:close # iris:hide # bg:black # corruption:0 # bgm:title # tabtitle:
 Iris.exe — demo.
 Gracias por jugar, {nombre}. En serio.
 Una historia de citas, modelos y personas que se parecen demasiado. Hecha con cariño para la comunidad de Crafter Station.
