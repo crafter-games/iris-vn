@@ -1,0 +1,220 @@
+:root {
+  --cream: #f4e9dc;
+  --pink: #e8a0b4;
+  --night: #1b1f2a;
+  --cyan: #5ce1e6;
+  --red: #d7263d;
+  --void: #0e1016;
+  --panel: rgb(27 31 42 / 0.85);
+  --serif: "Noto Serif", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Escenario 16:9 con letterbox; todas las medidas internas en unidades del contenedor. */
+#stage {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(100vw, calc(100dvh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  container-type: size;
+  background: var(--void);
+  color: var(--cream);
+  font-family: var(--serif);
+  user-select: none;
+  cursor: pointer;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgb(232 160 180 / 0.12), transparent 60%),
+    radial-gradient(ellipse at 80% 90%, rgb(92 225 230 / 0.08), transparent 55%),
+    var(--void);
+}
+
+/* ——— Caja de texto ——— */
+.textbox {
+  position: absolute;
+  left: 4cqw;
+  right: 4cqw;
+  bottom: 3cqh;
+  height: 28cqh;
+  padding: 3.4cqh 3cqw 2.5cqh;
+  background: var(--panel);
+  border: 1px solid rgb(244 233 220 / 0.14);
+  border-radius: 0.6cqw;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 1cqh 4cqh rgb(0 0 0 / 0.45);
+}
+
+.textbox[hidden] {
+  display: none;
+}
+
+.textbox__name {
+  position: absolute;
+  top: -2.6cqh;
+  left: 2.4cqw;
+  padding: 0.7cqh 1.6cqw;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: max(2.4cqh, 11px);
+  letter-spacing: 0.08em;
+  color: var(--night);
+  background: var(--pink);
+  border-radius: 0.3cqw;
+}
+
+.textbox__name[hidden] {
+  display: none;
+}
+
+.textbox__body {
+  margin: 0;
+  font-size: max(3.5cqh, 14px);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  text-wrap: pretty;
+}
+
+.textbox--narration .textbox__body {
+  font-style: italic;
+  color: rgb(244 233 220 / 0.86);
+}
+
+.textbox__cursor {
+  position: absolute;
+  right: 2cqw;
+  bottom: 1.8cqh;
+  font-size: 2cqh;
+  color: var(--pink);
+  animation: bob 0.9s ease-in-out infinite;
+}
+
+.textbox__cursor[hidden] {
+  display: none;
+}
+
+@keyframes bob {
+  50% {
+    transform: translateY(0.6cqh);
+    opacity: 0.5;
+  }
+}
+
+/* ——— Elecciones ——— */
+.choices {
+  position: absolute;
+  inset: 0 0 32cqh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2cqh;
+  background: rgb(14 16 22 / 0.35);
+}
+
+.choices[hidden] {
+  display: none;
+}
+
+.choice {
+  width: min(60cqw, 900px);
+  padding: 2cqh 3cqw;
+  font: inherit;
+  font-size: max(3.2cqh, 14px);
+  color: var(--cream);
+  background: var(--panel);
+  border: 1px solid rgb(244 233 220 / 0.2);
+  border-radius: 0.5cqw;
+  cursor: pointer;
+  opacity: 0;
+  animation: choice-in 240ms ease-out forwards;
+  transition:
+    background 120ms,
+    border-color 120ms,
+    transform 120ms;
+}
+
+.choice:focus-visible,
+.choice:focus,
+.choice:hover {
+  outline: none;
+  background: rgb(232 160 180 / 0.22);
+  border-color: var(--pink);
+  transform: translateX(0.6cqw);
+}
+
+@keyframes choice-in {
+  from {
+    opacity: 0;
+    transform: translateY(1cqh);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ——— Título ——— */
+.title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4cqh;
+  font: inherit;
+  color: var(--cream);
+  background: var(--void);
+  border: 0;
+  cursor: pointer;
+}
+
+.title[hidden] {
+  display: none;
+}
+
+.title__logo {
+  font-size: 14cqh;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.title__ext {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 0.55em;
+  color: var(--cyan);
+}
+
+.title__hint {
+  font-family: var(--mono);
+  font-size: 2.4cqh;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgb(244 233 220 / 0.55);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
+}

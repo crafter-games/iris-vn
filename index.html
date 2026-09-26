@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0e1016" />
+    <title>Iris.exe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main id="stage" aria-live="polite">
+      <div class="bg"></div>
+
+      <section id="textbox" class="textbox" hidden>
+        <div class="textbox__name"></div>
+        <p class="textbox__body"></p>
+        <span class="textbox__cursor" aria-hidden="true">▼</span>
+      </section>
+
+      <nav id="choices" class="choices" hidden></nav>
+
+      <button id="title" class="title">
+        <span class="title__logo">Iris<span class="title__ext">.exe</span></span>
+        <span class="title__hint">clic para empezar</span>
+      </button>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

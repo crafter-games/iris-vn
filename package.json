@@ -1,0 +1,22 @@
+{
+  "name": "iris-vn",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "playtest": "node tools/playtest.mjs"
+  },
+  "dependencies": {
+    "inkjs": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "playwright": "^1.63.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1"
+  },
+  "packageManager": "pnpm@9.13.2"
+}
