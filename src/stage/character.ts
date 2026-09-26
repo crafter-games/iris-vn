@@ -53,9 +53,10 @@ export class Character {
     const cached = this.cache.get(expression);
     if (cached) return cached;
     const url = `${import.meta.env.BASE_URL}chars/iris/iris_${expression}.png`;
-    const src = (await loadImage(url)) ? url : silhouette(expression);
-    this.cache.set(expression, src);
-    return src;
+    // Solo se recuerdan las cargas exitosas: un fallo de red no debe dejar la silueta para siempre.
+    if (!(await loadImage(url))) return silhouette(expression);
+    this.cache.set(expression, url);
+    return url;
   }
 }
 
