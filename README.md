@@ -4,6 +4,21 @@ Visual novel web de citas y misterio. Diseño completo en [`GDD.md`](GDD.md).
 
 **Jugar:** https://iris.crafter.run
 
+## Controles
+
+| Acción | Teclado / ratón | Touch |
+| --- | --- | --- |
+| Avanzar | clic, Espacio, Enter | tap |
+| Saltar texto leído | mantener Ctrl / botón Skip | botón Skip |
+| Auto | A / botón Auto | botón Auto |
+| Historial | L / rueda arriba | botón Log |
+| Cuaderno de pistas | N | 📓 |
+| Guardado rápido / carga rápida | F5 / F9 | — |
+| Ocultar interfaz | H / clic derecho | — |
+| Menú (guardar, cargar, ajustes, título) | Esc | ☰ |
+
+Las partidas, el texto leído y los ajustes se guardan en `localStorage` (claves `iris.*`).
+
 ## Desarrollo
 
 ```bash
@@ -30,4 +45,5 @@ pnpm playtest     # recorre el guion en Chromium headless y guarda capturas en p
   | `# pause:<ms>` / `# titlecard` / `# instant` | Pausa, logo del juego, línea sin máquina de escribir. |
   | `[[r]]…[[/r]]` | Verdad roja (destello + sonido). |
 
+- Pistas: `LIST pistas` en Ink (`~ pistas += foto_noche`); los textos del cuaderno están en `src/data/clues.ts`.
 - Deploy: cada push a `main` se despliega solo en el VPS de Crafter (Dokploy, `Dockerfile`).

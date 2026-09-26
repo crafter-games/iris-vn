@@ -7,6 +7,8 @@
 VAR nombre = "Tú"
 VAR afinidad = 50
 VAR sospecha = 0
+// Pistas del cuaderno (textos en src/data/clues.ts). Todas empiezan sin descubrir.
+LIST pistas = grupo_whatsapp, mensaje_borrado, respuesta_rapida, foto_noche, badge_empleada, commit_333, foto_reflejo, lumen_modelo
 
 -> match
 
@@ -26,10 +28,13 @@ Iris: perdón si es raro escribir primero. vi que también vas al Code Brew de m
     {nombre}: ¿Cómo sabes que voy? No lo puse en mi perfil.
     Iris: lo pusiste en el grupo de whatsapp de crafter, no?
     Nunca escribiste en ese grupo.
+    ~ pistas += grupo_whatsapp
 - Iris: te reconocí de tu foto. es bonita. se nota que la tomaste de noche
+~ pistas += foto_noche
 Iris: mañana te veo. no llegues tarde
 Iris: te estaré mirando
 Iris: jaja olvida eso, se envió solo. autocorrector # delete
+~ pistas += mensaje_borrado
 Iris: nos vemos {nombre} # instant
 -> prologo
 
@@ -53,6 +58,7 @@ Iris: Perdón, te reconocí por la foto. Bueno… por la foto y porque eres el �
     {nombre}: ¿Cómo sabías que era yo? Hay como treinta personas acá.
     Iris: Ya te dije. La foto. # iris:serious # instant
     Ella responde antes de que termine la pregunta. Medio segundo antes. # sfx:heartbeat
+    ~ pistas += respuesta_rapida
 - Iris se sienta a tu lado y abre su laptop. En la tapa hay un sticker que dice "LUMEN LABS". # iris:neutral
 Iris: Trabajo ahí. Entrenamos modelos. Nada interesante, en serio.
 Iris: Aunque… si quieres, un día te muestro la oficina de noche. Es otra cosa cuando no hay nadie. # iris:smile

@@ -26,7 +26,21 @@
           <div class="textbox__name"></div>
           <p class="textbox__body"></p>
           <span class="textbox__cursor" aria-hidden="true">▼</span>
+          <nav class="quickbar" aria-label="Controles">
+            <button id="btn-auto" title="Auto (A)">Auto</button>
+            <button id="btn-skip" title="Saltar leído (mantén Ctrl)">Skip</button>
+            <button id="btn-log" title="Historial (L)">Log</button>
+            <button id="btn-save" title="Guardar (F5 = rápido)">Guardar</button>
+            <button id="btn-menu" title="Menú (Esc)">Menú</button>
+          </nav>
         </section>
+
+        <nav class="corner">
+          <button id="btn-notebook" class="corner__btn" title="Cuaderno (N)" aria-label="Cuaderno de pistas">
+            📓<span id="notebook-count" class="corner__count" hidden>0</span>
+          </button>
+          <button id="btn-menu-corner" class="corner__btn" title="Menú (Esc)" aria-label="Menú">☰</button>
+        </nav>
 
         <nav id="choices" class="choices" hidden></nav>
 
@@ -55,10 +69,15 @@
         <span class="titlecard__logo">Iris<span class="titlecard__ext">.exe</span></span>
       </div>
 
-      <button id="start" class="start">
-        <span class="start__play">▶ clic para empezar</span>
+      <div id="toasts" class="toasts" aria-live="polite"></div>
+
+      <section id="start" class="start" hidden>
+        <span class="start__logo">IRIS<span>.exe</span></span>
+        <nav class="start__actions"></nav>
         <span class="start__hint">se recomienda jugar con audífonos</span>
-      </button>
+      </section>
+
+      <div id="overlays"></div>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>

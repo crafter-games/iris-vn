@@ -1,3 +1,5 @@
+import { onSettings } from "../engine/settings";
+
 // Efectos de sonido sintetizados con Web Audio: sin archivos ni licencias.
 // Buses: master → sfx / ui / music. Todo lo "dramático" pasa por una reverb larga.
 
@@ -12,6 +14,12 @@ type Ctx = {
 };
 
 let ctx: Ctx | null = null;
+// Durante el skip no suenan efectos: solo se ven los cambios de escena.
+let suppressed = false;
+
+export function setSfxSuppressed(value: boolean) {
+  suppressed = value;
+}
 
 const db = (value: number) => Math.pow(10, value / 20);
 
@@ -43,7 +51,15 @@ export function unlockAudio() {
   const data = noise.getChannelData(0);
   for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
 
-  ctx = { ac, master, sfx: bus(0), ui: bus(-10), music: bus(-6), reverb, noise };
+  const c: Ctx = { ac, master, sfx: bus(0), ui: bus(-10), music: bus(-6), reverb, noise };
+  ctx = c;
+  onSettings((s) => {
+    const now = ac.currentTime;
+    c.master.gain.setTargetAtTime(db(-3) * s.master, now, 0.05);
+    c.sfx.gain.setTargetAtTime(s.sfx, now, 0.05);
+    c.ui.gain.setTargetAtTime(db(-10) * s.ui, now, 0.05);
+    c.music.gain.setTargetAtTime(db(-6) * s.music, now, 0.05);
+  });
 }
 
 function impulse(ac: AudioContext, seconds: number, decay: number) {
@@ -243,13 +259,19 @@ const sounds: Record<string, (c: Ctx, t: number) => void> = {
     tone(c, { at: t, freq: 1800, to: 1200, glide: 0.03, peak: 0.12, release: 0.04, bus: c.ui });
   },
 
+  // Pista nueva: dos notas graves con cola de reverb, como pasar una página en otra habitación.
+  clue(c, t) {
+    tone(c, { at: t, freq: 220, peak: 0.22, release: 1.2, wet: 1, bus: c.ui });
+    tone(c, { at: t + 0.14, freq: 329.6, peak: 0.18, release: 1.6, wet: 1, bus: c.ui });
+  },
+
   ui_hover(c, t) {
     tone(c, { at: t, freq: 2400, peak: 0.04, release: 0.03, bus: c.ui });
   },
 };
 
 export function playSfx(key: string) {
-  if (!ctx) return;
+  if (!ctx || suppressed) return;
   const sound = sounds[key.replace(/^sfx_/, "")];
   if (!sound) {
     console.warn(`sfx desconocido: ${key}`);

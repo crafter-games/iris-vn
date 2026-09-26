@@ -5,7 +5,7 @@ const FADE_MS = 400; // (tune)
 export class Background {
   private layers: HTMLElement[];
   private front = 0;
-  private current = "";
+  current = "";
 
   constructor(root: HTMLElement) {
     this.layers = [...root.querySelectorAll<HTMLElement>(".bg__layer")];

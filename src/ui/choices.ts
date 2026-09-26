@@ -1,8 +1,12 @@
 // Menú de elecciones: clic/tap, o flechas + Enter.
+// El teclado no confirma durante los primeros ms: evita elegir sin querer al pasar texto rápido.
+const KEY_GUARD_MS = 400; // (tune)
+
 export class Choices {
   private root: HTMLElement;
   private buttons: HTMLButtonElement[] = [];
   private focused = 0;
+  private shownAt = 0;
 
   constructor(root: HTMLElement) {
     this.root = root;
@@ -30,6 +34,7 @@ export class Choices {
       });
       this.root.append(...this.buttons);
       this.root.hidden = false;
+      this.shownAt = performance.now();
       this.focus(0);
     });
   }
@@ -40,12 +45,17 @@ export class Choices {
   }
 
   confirm() {
+    if (performance.now() - this.shownAt < KEY_GUARD_MS) return;
     this.buttons[this.focused]?.click();
   }
 
   private focus(i: number) {
     this.focused = i;
     this.buttons[i]?.focus({ preventScroll: true });
+  }
+
+  cancel() {
+    this.close();
   }
 
   private close() {

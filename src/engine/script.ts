@@ -1,7 +1,7 @@
-import { Story } from "inkjs";
+import { InkList, Story } from "inkjs";
 
 export type Step =
-  | { kind: "line"; speaker: string | null; text: string; tags: string[] }
+  | { kind: "line"; id: string; speaker: string | null; text: string; tags: string[] }
   | { kind: "choices"; options: { index: number; text: string }[] }
   | { kind: "end" };
 
@@ -11,21 +11,27 @@ const SPEAKER = /^([^:\n]{1,24}):\s+(.+)$/s;
 // Envuelve el runtime de Ink y lo expone como una secuencia de pasos para el motor.
 export class Script {
   private story: Story;
+  // Estado de Ink justo antes del paso actual: guardar aquí permite cargar en la misma línea.
+  checkpoint: string;
 
   constructor(json: string) {
     this.story = new Story(json);
+    this.checkpoint = this.story.state.ToJson();
   }
 
   next(): Step {
     if (this.story.canContinue) {
+      this.checkpoint = this.story.state.ToJson();
+      const id = this.story.state.currentPathString ?? "";
       const raw = this.story.Continue()?.trim() ?? "";
       const tags = this.story.currentTags ?? [];
       if (!raw) return this.next();
       const match = raw.match(SPEAKER);
       return match
-        ? { kind: "line", speaker: match[1].trim(), text: match[2].trim(), tags }
-        : { kind: "line", speaker: null, text: raw, tags };
+        ? { kind: "line", id, speaker: match[1].trim(), text: match[2].trim(), tags }
+        : { kind: "line", id, speaker: null, text: raw, tags };
     }
+    this.checkpoint = this.story.state.ToJson();
     const choices = this.story.currentChoices;
     if (choices.length) {
       return { kind: "choices", options: choices.map((c) => ({ index: c.index, text: c.text })) };
@@ -37,11 +43,27 @@ export class Script {
     this.story.ChooseChoiceIndex(index);
   }
 
+  load(checkpoint: string) {
+    this.story.state.LoadJson(checkpoint);
+    this.checkpoint = checkpoint;
+  }
+
   getVar(name: string) {
     return this.story.variablesState.$(name);
   }
 
   setVar(name: string, value: string | number | boolean) {
     this.story.variablesState.$(name, value);
+  }
+
+  // Ítems activos de una LIST de Ink (p. ej. las pistas encontradas).
+  listItems(name: string): string[] {
+    const list = this.story.variablesState.$(name);
+    if (!(list instanceof InkList)) return [];
+    return list.orderedItems.map((pair) => pair.Key.itemName ?? "").filter(Boolean);
+  }
+
+  observe(name: string, fn: () => void) {
+    this.story.ObserveVariable(name, fn);
   }
 }

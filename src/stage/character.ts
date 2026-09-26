@@ -3,11 +3,15 @@ import { loadImage } from "./background";
 // Sprite de Iris. Busca /chars/iris/iris_<expresión>.png y, si no existe, dibuja una silueta placeholder.
 export class Character {
   private el: HTMLImageElement;
-  private expression = "";
+  expression = "";
   private cache = new Map<string, string>();
 
   constructor(el: HTMLImageElement) {
     this.el = el;
+  }
+
+  get state() {
+    return this.visible ? this.expression : "hide";
   }
 
   get visible() {

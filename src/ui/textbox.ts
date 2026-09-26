@@ -1,6 +1,5 @@
 import { parseMarkup, plainLength, renderSegments, type Segment } from "../engine/markup";
-
-const CHARS_PER_SECOND = 40; // (tune)
+import { settings } from "../engine/settings";
 
 // Caja de texto con efecto máquina de escribir.
 // Primer avance: completa la línea. Segundo avance: pasa a la siguiente.
@@ -12,6 +11,9 @@ export class TextBox {
   private typing = false;
   private segments: Segment[] = [];
   private resolveLine: (() => void) | null = null;
+  // Momento en que la línea terminó de escribirse (para el modo auto); null mientras escribe.
+  completedAt: number | null = null;
+  length = 0;
 
   constructor(root: HTMLElement) {
     this.root = root;
@@ -29,16 +31,18 @@ export class TextBox {
     this.segments = parseMarkup(text);
     this.cursorEl.hidden = true;
     this.typing = true;
+    this.completedAt = null;
 
     const total = plainLength(this.segments);
-    if (instant) {
+    this.length = total;
+    if (instant || settings.textSpeed <= 0) {
       this.finishTyping();
     } else {
       renderSegments(this.bodyEl, this.segments, 0);
       const start = performance.now();
       const tick = (now: number) => {
         if (!this.typing) return;
-        const count = Math.floor(((now - start) / 1000) * CHARS_PER_SECOND);
+        const count = Math.floor(((now - start) / 1000) * settings.textSpeed);
         if (count >= total) return this.finishTyping();
         renderSegments(this.bodyEl, this.segments, count);
         requestAnimationFrame(tick);
@@ -62,12 +66,25 @@ export class TextBox {
     return true;
   }
 
+  get waiting() {
+    return this.resolveLine !== null;
+  }
+
   hide() {
     this.root.hidden = true;
   }
 
+  // Abandona la línea en curso (al cargar una partida).
+  reset() {
+    this.typing = false;
+    this.resolveLine = null;
+    this.completedAt = null;
+    this.hide();
+  }
+
   private finishTyping() {
     this.typing = false;
+    this.completedAt = performance.now();
     renderSegments(this.bodyEl, this.segments);
     this.cursorEl.hidden = false;
   }

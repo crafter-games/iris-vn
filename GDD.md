@@ -165,3 +165,4 @@ No es dificultad: es **inquietud**. La curva la lleva el nivel de corrupción (0
 ## Changelog
 
 - 2026-09-25: GDD creado.
+- 2026-09-25: M1 (motor de texto), M2 (presentación, SFX sintetizados, celular) y M3 (guardado, historial, skip/auto, ajustes, cuaderno) publicados en iris.crafter.run. Las pistas viven en una `LIST pistas` de Ink.
