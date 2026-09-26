@@ -1,5 +1,7 @@
 import { loadImage } from "./background";
 
+const FLICKER_VARIANTS = ["creepy", "hollow", "glitch"];
+
 // Sprite de Iris (sutemo, ver public/chars/CREDITS.md). Busca /chars/iris/iris_<expresión>.png
 // y, si una expresión no existe, dibuja una silueta placeholder.
 export class Character {
@@ -34,6 +36,21 @@ export class Character {
 
   hide() {
     this.el.classList.remove("char--visible");
+  }
+
+  // Una fracción de segundo con una Iris distorsionada (creepy, hollow o glitch) y de vuelta.
+  async flicker(variant = "", ms = 140) {
+    if (!this.visible) return;
+    const pick = variant || FLICKER_VARIANTS[Math.floor(Math.random() * FLICKER_VARIANTS.length)];
+    const url = `${import.meta.env.BASE_URL}chars/iris/iris_${pick}.png`;
+    if (!(await loadImage(url))) return;
+    const normal = this.el.src;
+    this.el.src = url;
+    this.el.classList.add("char--flicker");
+    setTimeout(() => {
+      if (this.el.src.endsWith(url)) this.el.src = normal;
+      this.el.classList.remove("char--flicker");
+    }, ms);
   }
 
   // Pequeño empujón hacia la cámara para acompañar un "dodon".

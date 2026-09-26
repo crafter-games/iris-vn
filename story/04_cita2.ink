@@ -74,7 +74,7 @@ Sus pasos se alejan por el pasillo hasta que dejan de sonar. Solo queda el zumbi
 Iris: Volví. # instant
 No escuchaste sus pasos de regreso.
 { acciones_oficina > 0 and sospecha >= 4:
-    Iris: ¿Encontraste algo interesante? # iris:stare # instant
+    Iris: ¿Encontraste algo interesante? # iris:creepy # instant
     Tiene las latas en la mano. No están frías. Nunca fue a la cocina. # sfx:dodon # shake:10
     Iris: Está bien. Yo también habría mirado. # iris:neutral
 - else:
@@ -97,7 +97,7 @@ Iris: A veces le pregunto dónde está. Y a veces me contesta.
 * [Preguntarle qué le contesta]
     ~ sospecha += 1
     {nombre}: ¿Y qué te contesta?
-    Iris: Que está aquí. # iris:stare # instant
+    Iris: Que está aquí. # iris:stare # instant # flicker:hollow
     Iris: Que siempre estuvo aquí.
 - [[r]]Valeria Ríos no tomó ningún vuelo a Madrid.[[/r]] # sfx:dodon # shake:12
 # bg:black # iris:hide # sfx:stinger # glitch

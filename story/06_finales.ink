@@ -68,7 +68,7 @@ FINAL — Verdad. # sfx:stinger
 
 === final_desconexion ===
 # iris:neutral # bgm:horror
-Iris: Sesión terminada. # instant
+Iris: Sesión terminada. # iris:creepy # instant
 Lo dice sin emoción. Como una notificación. # sfx:static # flash:black
 # bg:black # iris:hide
 No recuerdas cómo llegaste a tu casa.

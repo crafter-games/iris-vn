@@ -38,7 +38,7 @@ node tools/route-shots.mjs   # juega la ruta "Verdad" y captura los momentos cla
   | Tag | Efecto |
   | --- | --- |
   | `# bg:<clave>` | Fondo `public/bg/bg_<clave>.jpg` con crossfade (`black` = negro). Placeholder si falta. |
-  | `# iris:<expresión>` | Sprite `public/chars/iris/iris_<expresión>.png` (`hide` lo oculta). Silueta si falta. |
+  | `# iris:<expresión>` | Sprite `public/chars/iris/iris_<expresión>.png`: neutral, smile, laugh, blush, surprised, sad, serious, stare, creepy, hollow, glitch (`hide` la oculta). Silueta si falta. |
   | `# sfx:<clave>` | Sonido sintetizado (`src/audio/sfx.ts`): dodon, red_truth, glass_shatter, riser, stinger, heartbeat, static… |
   | `# shake:<px>` / `# flash:<color>` / `# glass` | Sacudida, destello, cristal roto. |
   | `# phone:open` / `# phone:close` | Celular; los diálogos se vuelven burbujas y la narración, pensamientos. |
@@ -51,6 +51,7 @@ node tools/route-shots.mjs   # juega la ruta "Verdad" y captura los momentos cla
   | `# bgm:<mood>` | Música: `public/music/<mood>.mp3` (title, warm, uneasy, office_night, horror, confession) o `none`. Generativa si falta el archivo. |
   | `# corruption:<0-3>` | Nivel de corrupción: filtro de fondos, grano, viñeta, aberración, glitches, capas de audio, color de la UI. |
   | `# glitch` | Glitch de pantalla puntual. |
+  | `# flicker[:creepy|hollow|glitch]` | Iris se distorsiona una fracción de segundo y vuelve (al azar si no se indica). |
   | `# tabtitle:<texto>` | Cambia el título de la pestaña (`$nombre` = nombre del jugador; vacío = normal). |
   | `# corrupt_slot` | La ranura 6, si está vacía, aparece "corrupta" con el nombre del jugador. |
   | `# miku:<id>@<x>,<y>` | Peluche escondido clicable (logro "where is miku?"). |

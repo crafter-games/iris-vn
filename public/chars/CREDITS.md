@@ -38,3 +38,13 @@
 
 Layer stacking follows the PSD order: hair behind, body, blush, costume, hair front, expression, accessories.
 Modifications (recolor, lens opacity, glasses offset, expression mix, crop) were made for this game.
+
+### Creepy / distorted variants (same layers, same 842×1020 canvas and alignment)
+
+All derived from the same sutemo PSD layers and look (Long Hair/Hime Cut Dark back, Long Hair Dark front, gray Hoodie 1, Circle Glasses +28 px). Pixel edits were done by us with a script (no AI generation).
+
+| File | Base layers | Edits |
+| --- | --- | --- |
+| `iris_creepy.png` | Expression → Smile | Higurashi-style shadow band: purple multiply gradient (fading in from the bangs, strongest at the brows/upper lids, gone just below the eyes) applied only to the Base Body skin and the expression layer (hair, glasses and background untouched). Irises repainted inside a fitted ellipse as flat dark mauve-gray with a dark limbal ring and a 3 px black pinpoint pupil; all catchlights and pink highlights removed; lash/outline pixels kept. Faint cold diagonal glare streaks inside the glasses lenses. |
+| `iris_hollow.png` | Expression → normal (flat mouth) | Opaque eye pixels (sclera + iris) filled near-black (soft peach eyelid tint left alone), tiny dim red pinpoint with a faint glow at each iris center, light shadow over the upper face, whole sprite desaturated ~40% and cooled. |
+| `iris_glitch.png` | `iris_stare.png` | Premultiplied RGB split (red sampled 6 px right → shifts left; green/blue sampled 6 px left → cyan shifts right), 6 horizontal slices displaced 12–40 px moving RGBA (vacated pixels become transparent), scanlines on every 3rd row (−18%), a few thin cyan lines. |

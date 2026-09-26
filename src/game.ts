@@ -22,6 +22,7 @@ import { Phone } from "./ui/phone";
 import { SaveMenu } from "./ui/saveMenu";
 import { SettingsPanel } from "./ui/settingsPanel";
 import { hydrateIcons } from "./ui/icons";
+import { TitleScreen } from "./ui/titleScreen";
 import { TextBox } from "./ui/textbox";
 import { Toast } from "./ui/toast";
 
@@ -49,6 +50,7 @@ export class Game {
   private notebook = new Notebook($("#overlays"), $("#notebook-count"));
   private menu = new Panel($("#overlays"), "panel--menu", "Menú");
   private credits = new Panel($("#overlays"), "panel--credits", "Créditos");
+  private title = new TitleScreen($("#start"));
   private corruption = new Corruption($("#stage"));
   private miku = new Miku($<HTMLButtonElement>("#miku"));
   private tabTitle = "";
@@ -108,6 +110,7 @@ export class Game {
     const endings = this.start.querySelector<HTMLElement>(".start__endings")!;
     endings.hidden = seen.length === 0;
     endings.textContent = `Finales  ${ENDINGS.map((id) => (seen.includes(id) ? "◆" : "◇")).join(" ")}`;
+    this.title.show(seen);
     this.start.hidden = false;
   }
 
@@ -126,6 +129,7 @@ export class Game {
   }
 
   private begin() {
+    this.title.hide();
     this.start.hidden = true;
     this.playing = true;
     this.run(++this.runId);
@@ -214,6 +218,9 @@ export class Game {
           break;
         case "miku":
           this.miku.place(value);
+          break;
+        case "flicker":
+          if (!fast) this.iris.flicker(value, value === "hollow" ? 110 : 150);
           break;
         case "glitch":
           if (!fast) {
@@ -340,6 +347,9 @@ export class Game {
         this.updateModes();
       }
     }
+    // En corrupción alta, Iris se distorsiona sola de vez en cuando.
+    const flickerEvery = [0, 0, 45000, 20000][this.corruption.level];
+    if (!this.skipping && flickerEvery && Math.random() < TICK_MS / flickerEvery) this.iris.flicker();
     if (!this.skipping && Math.random() < this.corruption.glitchChance(TICK_MS)) {
       this.effects.glitch();
       playSfx("static");

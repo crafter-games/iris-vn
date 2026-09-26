@@ -34,13 +34,13 @@ Iris: Valeria y yo. Todo el mundo nos confundía. Nos divertía. # iris:smile
 - # sfx:static # flash:black # glitch
 La luz parpadea. Una vez. Dos. Iris no reacciona.
 Iris: {nombre}. Te dije que tenía algo que preguntarte. # iris:serious
-Iris: ¿Confías en mí?
+Iris: ¿Confías en mí? # flicker:glitch
 * [Confío en ti]
     {nombre}: Confío en ti.
     { afinidad >= 60 and sospecha < 5:
         -> final_siempre
     - else:
-        Iris: Mientes. # iris:stare # instant
+        Iris: Mientes. # iris:creepy # instant
         Iris: Tu voz sube cuando mientes. Lo tengo medido. # sfx:dodon # shake:10
         -> final_desconexion
     }
@@ -88,7 +88,7 @@ Iris: Bien. Una. # iris:stare
 -> afirmacion_2
 
 = afirmacion_2
-Iris: Valeria renunció. Se fue a Madrid. No la busques. # instant
+Iris: Valeria renunció. Se fue a Madrid. No la busques. # instant # flicker:hollow
 + {pistas ? badge_empleada} [Un badge sin dueña #pista]
     {nombre}: [[r]]El badge de Valeria se renovó el mes pasado. Alguien la sigue registrando como empleada.[[/r]] # glass # shake:16
     ~ aciertos += 1
@@ -154,7 +154,7 @@ Iris: Pensé que estabas prestando atención. # sfx:stinger
 ->->
 
 = nada
-Iris: Entonces es verdad. # iris:neutral # instant
+Iris: Entonces es verdad. # iris:creepy # instant
 ->->
 
 = veredicto

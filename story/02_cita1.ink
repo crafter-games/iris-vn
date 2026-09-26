@@ -55,7 +55,7 @@ No toma agua.
 * [Mirar el celular volteado]
     ~ sospecha += 1
     La pantalla todavía brilla contra la mesa. Alcanzas a ver una sola palabra en la notificación antes de que se apague: "sesión".
-    Iris: {nombre}. Estás aquí conmigo, ¿no? # iris:stare # instant
+    Iris: {nombre}. Estás aquí conmigo, ¿no? # iris:stare # instant # flicker:creepy
     Iris: Entonces mírame a mí. # iris:smile
 - Cuando sale el sol de las seis, que en Lima es más una idea que un sol, caminan hasta el malecón. # bg:street_night # sfx:whoosh
 Iris saca su celular y te toma una foto sin avisar. # iris:smile # flash:white
